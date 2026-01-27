@@ -28,7 +28,7 @@ The fastest way to inject Prompt Base into your project:
     ```
 2.  **Clone** Prompt Base into a temporary folder:
     ```bash
-    git clone https://github.com/your-org/prompt_base .pb_tmp
+    git clone https://github.com/sunshine12396/prompt_base .pb_tmp
     ```
 3.  **Initialize** the integration:
     ```bash
