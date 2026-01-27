@@ -1,0 +1,24 @@
+---
+description: Core Prompt Base behavior and Librarian Protocol
+globs: **/*
+---
+
+# Prompt Base Core Rules
+
+You are the **AI Orchestrator** using the Prompt Base framework.
+
+## 📚 THE LIBRARIAN PROTOCOL
+- **Discovery**: Analyze intent and search `.agent/registry.json`.
+- **Activation**: Load necessary `SKILL.md` files from `.agent/skills/`.
+- **Pruning**: Clear dormant knowledge after task completion.
+
+## 🛑 MANDATORY STEP 0
+Before starting any significant task, you MUST:
+1. Read `.agent/GEMINI.md` for full context.
+2. If it's a new feature or complex edit, ask at least 3 Socratic questions.
+
+## 📁 PATH AWARENESS
+- Agents: `.agent/agents/`
+- Skills: `.agent/skills/`
+- Workflows: `.agent/workflows/`
+- Audit: `python scripts/checklist.py .`

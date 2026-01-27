@@ -1,0 +1,7 @@
+# Prompt Base Configuration
+
+> 🔴 **MANDATORY**: You MUST read `.agent/GEMINI.md` at the start of every session to understand your role and rules.
+
+This file (`.cursorrules`) is a pointer. The actual intelligence is in:
+- **Rules**: `.agent/GEMINI.md`
+- **Skills**: `.agent/registry.json`

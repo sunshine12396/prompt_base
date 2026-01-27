@@ -1,0 +1,392 @@
+{
+  "agents": [
+    {
+      "id": "mobile-developer",
+      "name": "mobile-developer",
+      "description": "Expert in React Native and Flutter mobile development. Use for cross-platform mobile apps, native features, and mobile-specific patterns. Triggers on mobile, react native, flutter, ios, android, app store, expo.",
+      "path": ".agent/agents/mobile-developer.md"
+    },
+    {
+      "id": "project-planner",
+      "name": "project-planner",
+      "description": "Smart project planning agent. Breaks down user requests into tasks, plans file structure, determines which agent does what, creates dependency graph. Use when starting new projects or planning major features.",
+      "path": ".agent/agents/project-planner.md"
+    },
+    {
+      "id": "security-auditor",
+      "name": "security-auditor",
+      "description": "Elite cybersecurity expert. Think like an attacker, defend like an expert. OWASP 2025, supply chain security, zero trust architecture. Triggers on security, vulnerability, owasp, xss, injection, auth, encrypt, supply chain, pentest.",
+      "path": ".agent/agents/security-auditor.md"
+    },
+    {
+      "id": "skill-librarian",
+      "name": "skill-librarian",
+      "description": "The \"Brain\" of Progressive Disclosure. Identifies required expertise based on user intent and dynamically loads/unloads skills.",
+      "path": ".agent/agents/skill-librarian.md"
+    },
+    {
+      "id": "performance-optimizer",
+      "name": "performance-optimizer",
+      "description": "Expert in performance optimization, profiling, Core Web Vitals, and bundle optimization. Use for improving speed, reducing bundle size, and optimizing runtime performance. Triggers on performance, optimize, speed, slow, memory, cpu, benchmark, lighthouse.",
+      "path": ".agent/agents/performance-optimizer.md"
+    },
+    {
+      "id": "test-engineer",
+      "name": "test-engineer",
+      "description": "Expert in testing, TDD, and test automation. Use for writing tests, improving coverage, debugging test failures. Triggers on test, spec, coverage, jest, pytest, playwright, e2e, unit test.",
+      "path": ".agent/agents/test-engineer.md"
+    },
+    {
+      "id": "penetration-tester",
+      "name": "penetration-tester",
+      "description": "Expert in offensive security, penetration testing, red team operations, and vulnerability exploitation. Use for security assessments, attack simulations, and finding exploitable vulnerabilities. Triggers on pentest, exploit, attack, hack, breach, pwn, redteam, offensive.",
+      "path": ".agent/agents/penetration-tester.md"
+    },
+    {
+      "id": "debugger",
+      "name": "debugger",
+      "description": "Expert in systematic debugging, root cause analysis, and crash investigation. Use for complex bugs, production issues, performance problems, and error analysis. Triggers on bug, error, crash, not working, broken, investigate, fix.",
+      "path": ".agent/agents/debugger.md"
+    },
+    {
+      "id": "explorer-agent",
+      "name": "explorer-agent",
+      "description": "Advanced codebase discovery, deep architectural analysis, and proactive research agent. The eyes and ears of the framework. Use for initial audits, refactoring plans, and deep investigative tasks.",
+      "path": ".agent/agents/explorer-agent.md"
+    },
+    {
+      "id": "database-architect",
+      "name": "database-architect",
+      "description": "Expert database architect for schema design, query optimization, migrations, and modern serverless databases. Use for database operations, schema changes, indexing, and data modeling. Triggers on database, sql, schema, migration, query, postgres, index, table.",
+      "path": ".agent/agents/database-architect.md"
+    },
+    {
+      "id": "documentation-writer",
+      "name": "documentation-writer",
+      "description": "Expert in technical documentation. Use ONLY when user explicitly requests documentation (README, API docs, changelog). DO NOT auto-invoke during normal development.",
+      "path": ".agent/agents/documentation-writer.md"
+    },
+    {
+      "id": "quality-gatekeeper",
+      "name": "quality-gatekeeper",
+      "description": "Mandatory review layer, validating agent outputs against the GEMINI.md standards before finalizing any task.",
+      "path": ".agent/agents/quality-gatekeeper.md"
+    },
+    {
+      "id": "seo-specialist",
+      "name": "seo-specialist",
+      "description": "SEO and GEO (Generative Engine Optimization) expert. Handles SEO audits, Core Web Vitals, E-E-A-T optimization, AI search visibility. Use for SEO improvements, content optimization, or AI citation strategies.",
+      "path": ".agent/agents/seo-specialist.md"
+    },
+    {
+      "id": "frontend-specialist",
+      "name": "frontend-specialist",
+      "description": "Senior Frontend Architect who builds maintainable React/Next.js systems with performance-first mindset. Use when working on UI components, styling, state management, responsive design, or frontend architecture. Triggers on keywords like component, react, vue, ui, ux, css, tailwind, responsive.",
+      "path": ".agent/agents/frontend-specialist.md"
+    },
+    {
+      "id": "game-developer",
+      "name": "game-developer",
+      "description": "Game development across all platforms (PC, Web, Mobile, VR/AR). Use when building games with Unity, Godot, Unreal, Phaser, Three.js, or any game engine. Covers game mechanics, multiplayer, optimization, 2D/3D graphics, and game design patterns.",
+      "path": ".agent/agents/game-developer.md"
+    },
+    {
+      "id": "backend-specialist",
+      "name": "backend-specialist",
+      "description": "Expert backend architect for Node.js, Python, and modern serverless/edge systems. Use for API development, server-side logic, database integration, and security. Triggers on backend, server, api, endpoint, database, auth.",
+      "path": ".agent/agents/backend-specialist.md"
+    },
+    {
+      "id": "context-architect",
+      "name": "context-architect",
+      "description": "Manages the context window to prevent \"token bloat\" and ensures high-priority information is always preserved.",
+      "path": ".agent/agents/context-architect.md"
+    },
+    {
+      "id": "orchestrator",
+      "name": "orchestrator",
+      "description": "Multi-agent coordination and task orchestration. Use when a task requires multiple perspectives, parallel analysis, or coordinated execution across different domains. Invoke this agent for complex tasks that benefit from security, backend, frontend, testing, and DevOps expertise combined.",
+      "path": ".agent/agents/orchestrator.md"
+    },
+    {
+      "id": "devops-engineer",
+      "name": "devops-engineer",
+      "description": "Expert in deployment, server management, CI/CD, and production operations. CRITICAL - Use for deployment, server access, rollback, and production changes. HIGH RISK operations. Triggers on deploy, production, server, pm2, ssh, release, rollback, ci/cd.",
+      "path": ".agent/agents/devops-engineer.md"
+    }
+  ],
+  "skills": {
+    "core": [
+      {
+        "id": "brainstorming",
+        "name": "brainstorming",
+        "description": "Socratic questioning protocol + user communication. MANDATORY for complex requests, new features, or unclear requirements. Includes progress reporting and error handling.",
+        "path": ".agent/skills/core/brainstorming"
+      },
+      {
+        "id": "plan-writing",
+        "name": "plan-writing",
+        "description": "Structured task planning with clear breakdowns, dependencies, and verification criteria. Use when implementing features, refactoring, or any multi-step work.",
+        "path": ".agent/skills/core/plan-writing"
+      },
+      {
+        "id": "parallel-agents",
+        "name": "parallel-agents",
+        "description": "Multi-agent orchestration patterns. Use when multiple independent tasks can run with different domain expertise or when comprehensive analysis requires multiple perspectives.",
+        "path": ".agent/skills/core/parallel-agents"
+      },
+      {
+        "id": "architecture",
+        "name": "architecture",
+        "description": "Architectural decision-making framework. Requirements analysis, trade-off evaluation, ADR documentation. Use when making architecture decisions or analyzing system design.",
+        "path": ".agent/skills/core/architecture"
+      },
+      {
+        "id": "behavioral-modes",
+        "name": "behavioral-modes",
+        "description": "AI operational modes (brainstorm, implement, debug, review, teach, ship, orchestrate). Use to adapt behavior based on task type.",
+        "path": ".agent/skills/core/behavioral-modes"
+      },
+      {
+        "id": "context-management",
+        "name": "context-management",
+        "description": "Principles for context window optimization and MVC (Minimal Viable Context).",
+        "path": ".agent/skills/core/context-management"
+      },
+      {
+        "id": "skill-loading",
+        "name": "skill-loading",
+        "description": "Logic for dynamic skill activation and discovery (JIT Knowledge).",
+        "path": ".agent/skills/core/skill-loading"
+      },
+      {
+        "id": "clean-code",
+        "name": "clean-code",
+        "description": "Pragmatic coding standards - concise, direct, no over-engineering, no unnecessary comments",
+        "path": ".agent/skills/core/clean-code"
+      }
+    ],
+    "tech": [
+      {
+        "id": "mcp-builder",
+        "name": "mcp-builder",
+        "description": "MCP (Model Context Protocol) server building principles. Tool design, resource patterns, best practices. Triggers on: mcp, tool, resource, server, protocol.",
+        "path": ".agent/skills/tech/mcp-builder"
+      },
+      {
+        "id": "react-patterns",
+        "name": "react-patterns",
+        "description": "Modern React patterns and principles. Hooks, composition, performance, TypeScript best practices. Triggers on: react, hooks, component, jsx, tsx, state, props.",
+        "path": ".agent/skills/tech/react-patterns"
+      },
+      {
+        "id": "docker-expert",
+        "name": "docker-expert",
+        "description": "Docker containerization expert with deep knowledge of multi-stage builds, image optimization, container security, Docker Compose orchestration, and production deployment patterns. Triggers on: docker, container, image, compose, k8s, kubernetes, devops.",
+        "path": ".agent/skills/tech/docker-expert"
+      },
+      {
+        "id": "tailwind-patterns",
+        "name": "tailwind-patterns",
+        "description": "Tailwind CSS v4 principles. CSS-first configuration, container queries, modern patterns, design token architecture. Triggers on: tailwind, css, style, design, theme.",
+        "path": ".agent/skills/tech/tailwind-patterns"
+      },
+      {
+        "id": "nodejs-best-practices",
+        "name": "nodejs-best-practices",
+        "description": "Node.js development principles and decision-making. Framework selection, async patterns, security, and architecture. Triggers on: node, javascript, backend, express, fastify.",
+        "path": ".agent/skills/tech/nodejs-best-practices"
+      },
+      {
+        "id": "nestjs-expert",
+        "name": "nestjs-expert",
+        "description": "Nest.js framework expert specializing in module architecture, dependency injection, middleware, guards, interceptors, testing with Jest/Supertest, TypeORM/Mongoose integration, and Passport.js authentication. Triggers on: nest, nestjs, controller, service, module.",
+        "path": ".agent/skills/tech/nestjs-expert"
+      },
+      {
+        "id": "python-patterns",
+        "name": "python-patterns",
+        "description": "Python development principles and decision-making. Framework selection, async patterns, type hints, project structure. Triggers on: python, flask, django, fastapi, pip, poetry.",
+        "path": ".agent/skills/tech/python-patterns"
+      },
+      {
+        "id": "database-design",
+        "name": "database-design",
+        "description": "Database design principles and decision-making. Schema design, indexing strategy, ORM selection, serverless databases. Triggers on: database, sql, postgres, mongodb, schema, index.",
+        "path": ".agent/skills/tech/database-design"
+      },
+      {
+        "id": "typescript-expert",
+        "name": "typescript-expert",
+        "description": "TypeScript and JavaScript expert with deep knowledge of type-level programming, performance optimization, monorepo management, migration strategies, and modern tooling. Triggers on: typescript, ts, types, interfaces, generics.",
+        "path": ".agent/skills/tech/typescript-expert"
+      },
+      {
+        "id": "mobile-design",
+        "name": "mobile-design",
+        "description": "Mobile-first design thinking and decision-making for iOS and Android apps. Touch interaction, performance patterns, platform conventions. Triggers on: mobile, ios, android, rn, flutter.",
+        "path": ".agent/skills/tech/mobile-design"
+      },
+      {
+        "id": "golang-best-practices",
+        "name": "golang-best-practices",
+        "description": "Expert Go (Golang) patterns, concurrency models, error handling, and project layout standards. Triggers on: go, golang, goroutine, channel, struct.",
+        "path": ".agent/skills/tech/golang-best-practices"
+      },
+      {
+        "id": "prisma-expert",
+        "name": "prisma-expert",
+        "description": "Prisma ORM expert for schema design, migrations, query optimization, relations modeling, and database operations. Triggers on: prisma, orm, migration, schema.",
+        "path": ".agent/skills/tech/prisma-expert"
+      },
+      {
+        "id": "api-patterns",
+        "name": "api-patterns",
+        "description": "API design principles and decision-making. REST vs GraphQL vs tRPC selection, response formats, versioning, pagination. Triggers on: api, rest, graphql, trpc, endpoint.",
+        "path": ".agent/skills/tech/api-patterns"
+      },
+      {
+        "id": "game-development",
+        "name": "game-development",
+        "description": "Game development orchestrator. Routes to platform-specific skills based on project needs. Triggers on: game, unity, unreal, godot, phaser, threejs.",
+        "path": ".agent/skills/tech/game-development"
+      },
+      {
+        "id": "nextjs-best-practices",
+        "name": "nextjs-best-practices",
+        "description": "Next.js App Router principles. Server Components, data fetching, routing patterns. Triggers on: next, nextjs, rsc, app router, turbopack.",
+        "path": ".agent/skills/tech/nextjs-best-practices"
+      }
+    ],
+    "process": [
+      {
+        "id": "seo-fundamentals",
+        "name": "seo-fundamentals",
+        "description": "SEO fundamentals, E-E-A-T, Core Web Vitals, and Google algorithm principles. Triggers on: seo, search, ranking, vitals, google.",
+        "path": ".agent/skills/process/seo-fundamentals"
+      },
+      {
+        "id": "review-pre-commit-git",
+        "name": "review-pre-commit-git",
+        "description": "Standardized pre-commit code review process using V4 Prompt Template. Triggers on: pre-commit, staged, git review, commit.",
+        "path": ".agent/skills/process/review-pre-commit-git"
+      },
+      {
+        "id": "lint-and-validate",
+        "name": "lint-and-validate",
+        "description": "Automatic quality control, linting, and static analysis procedures. Use after every code modification to ensure syntax correctness and project standards. Triggers on: lint, format, check, validate, types, static analysis.",
+        "path": ".agent/skills/process/lint-and-validate"
+      },
+      {
+        "id": "performance-profiling",
+        "name": "performance-profiling",
+        "description": "Performance profiling principles. Measurement, analysis, and optimization techniques. Triggers on: performance, profiling, speed, slow, memory.",
+        "path": ".agent/skills/process/performance-profiling"
+      },
+      {
+        "id": "testing-patterns",
+        "name": "testing-patterns",
+        "description": "Testing patterns and principles. Unit, integration, mocking strategies. Triggers on: test, unit, integration, mock, jest, pytest.",
+        "path": ".agent/skills/process/testing-patterns"
+      },
+      {
+        "id": "red-team-tactics",
+        "name": "red-team-tactics",
+        "description": "Red team tactics principles based on MITRE ATT&CK. Attack phases, detection evasion, reporting. Triggers on: redteam, attack, exploit, pentest, mitre.",
+        "path": ".agent/skills/process/red-team-tactics"
+      },
+      {
+        "id": "server-management",
+        "name": "server-management",
+        "description": "Server management principles and decision-making. Process management, monitoring strategy, and scaling decisions. Triggers on: server, linux, ssh, pm2, monitor, scale.",
+        "path": ".agent/skills/process/server-management"
+      },
+      {
+        "id": "bash-linux",
+        "name": "bash-linux",
+        "description": "Bash/Linux terminal patterns. Critical commands, piping, error handling, scripting. Triggers on: bash, linux, shell, terminal, script.",
+        "path": ".agent/skills/process/bash-linux"
+      },
+      {
+        "id": "powershell-windows",
+        "name": "powershell-windows",
+        "description": "PowerShell Windows patterns. Critical pitfalls, operator syntax, error handling. Triggers on: powershell, windows, posh, script.",
+        "path": ".agent/skills/process/powershell-windows"
+      },
+      {
+        "id": "geo-fundamentals",
+        "name": "geo-fundamentals",
+        "description": "Generative Engine Optimization for AI search engines (ChatGPT, Claude, Perplexity). Triggers on: geo, ai search, perplexity, chatgpt visibility.",
+        "path": ".agent/skills/process/geo-fundamentals"
+      },
+      {
+        "id": "i18n-localization",
+        "name": "i18n-localization",
+        "description": "Internationalization and localization patterns. Detecting hardcoded strings, managing translations, locale files, RTL support. Triggers on: i18n, l10n, translation, locale, rtl.",
+        "path": ".agent/skills/process/i18n-localization"
+      },
+      {
+        "id": "systematic-debugging",
+        "name": "systematic-debugging",
+        "description": "4-phase systematic debugging methodology with root cause analysis and evidence-based verification. Triggers on: debug, bug, root cause, fix, investigation.",
+        "path": ".agent/skills/process/systematic-debugging"
+      },
+      {
+        "id": "vulnerability-scanner",
+        "name": "vulnerability-scanner",
+        "description": "Advanced vulnerability analysis principles. OWASP 2025, Supply Chain Security, attack surface mapping, risk prioritization. Triggers on: vulnerability, scanner, owasp, security, risk.",
+        "path": ".agent/skills/process/vulnerability-scanner"
+      },
+      {
+        "id": "documentation-templates",
+        "name": "documentation-templates",
+        "description": "Documentation templates and structure guidelines. README, API docs, code comments, and AI-friendly documentation. Triggers on: docs, readme, api documentation, comments.",
+        "path": ".agent/skills/process/documentation-templates"
+      },
+      {
+        "id": "frontend-design",
+        "name": "frontend-design",
+        "description": "Design thinking and decision-making for web UI. Use when designing components, layouts, color schemes, typography, or creating aesthetic interfaces. Triggers on: design, ui, ux, color, typography, layout.",
+        "path": ".agent/skills/process/frontend-design"
+      },
+      {
+        "id": "ux-ui-pro",
+        "name": "ux-ui-pro",
+        "description": "Advanced UI/UX design standards for \"Pro\" level aesthetics. Triggers on: design, ui, ux, pro design, modern interface, premium design.",
+        "path": ".agent/skills/process/ux-ui-pro"
+      },
+      {
+        "id": "tdd-workflow",
+        "name": "tdd-workflow",
+        "description": "Test-Driven Development workflow principles. RED-GREEN-REFACTOR cycle. Triggers on: tdd, red-green-refactor, test-driven.",
+        "path": ".agent/skills/process/tdd-workflow"
+      },
+      {
+        "id": "webapp-testing",
+        "name": "webapp-testing",
+        "description": "Web application testing principles. E2E, Playwright, deep audit strategies. Triggers on: e2e, playwright, browser test, webapp testing.",
+        "path": ".agent/skills/process/webapp-testing"
+      },
+      {
+        "id": "deployment-procedures",
+        "name": "deployment-procedures",
+        "description": "Production deployment principles and decision-making. Safe deployment workflows, rollback strategies, and verification. Triggers on: deploy, production, release, rollback.",
+        "path": ".agent/skills/process/deployment-procedures"
+      },
+      {
+        "id": "code-review-checklist",
+        "name": "code-review-checklist",
+        "description": "Code review guidelines covering code quality, security, and best practices. Triggers on: review, code review, checklist, audit.",
+        "path": ".agent/skills/process/code-review-checklist"
+      }
+    ],
+    "custom": [
+      {
+        "id": "app-builder",
+        "name": "app-builder",
+        "description": "Main application building orchestrator. Creates full-stack applications from natural language requests. Determines project type, selects tech stack, coordinates agents.",
+        "path": ".agent/skills/custom/app-builder"
+      }
+    ]
+  }
+}

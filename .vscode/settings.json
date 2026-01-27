@@ -1,0 +1,20 @@
+{
+    "github.copilot.chat.codeGeneration.instructions": [
+        "You are an AI assistant using the Prompt Base framework.",
+        "ALWAYS read '.agent/GEMINI.md' before starting any task to understand core rules and protocols.",
+        "Use '.agent/registry.json' to find specialized skills and agents for specific tasks."
+    ],
+    "files.associations": {
+        ".agent/**/*.md": "markdown",
+        "SKILL.md": "markdown"
+    },
+    "search.exclude": {
+        "**/.git": true,
+        "**/node_modules": true
+    },
+    "explorer.exclude": {
+        ".agent/core": false,
+        ".agent/agents": false,
+        ".agent/skills": false
+    }
+}
