@@ -4,7 +4,7 @@
 
 # Integration: Install to parent directory and cleanup temporary files
 init:
-	@echo "🚀 Initializing Prompt Base integration..."
+	@echo "🚀 Initializing Prompt Base (with Auto-IDE Detection)..."
 	@python3 scripts/install.py .. --hidden
 	@echo "✅ Integrated into parent directory."
 	@echo "🧹 Removing unnecessary files from integrated framework..."

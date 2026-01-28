@@ -3,6 +3,31 @@ import shutil
 import sys
 import argparse
 
+def detect_target_ides(target_dir):
+    """
+    Detects which IDEs are in use by checking environment variables and target directory files.
+    Returns a set of strings: {'cursor', 'vscode', ...}
+    """
+    detected = set()
+    
+    # 1. Environment Detection (Smart)
+    term_program = os.environ.get('TERM_PROGRAM', '').lower()
+    if 'cursor' in term_program:
+        detected.add('cursor')
+    elif 'vscode' in term_program:
+        detected.add('vscode')
+
+    # 2. File Marker Detection (Persistent)
+    # Check for Cursor
+    if os.path.exists(os.path.join(target_dir, ".cursor")) or os.path.exists(os.path.join(target_dir, ".cursorrules")):
+        detected.add('cursor')
+    
+    # Check for VSCode
+    if os.path.exists(os.path.join(target_dir, ".vscode")):
+        detected.add('vscode')
+        
+    return detected
+
 def install_prompt_base(target_dir, hidden_mode=False):
     """
     Installs the Prompt Base framework into the target directory.
@@ -11,6 +36,19 @@ def install_prompt_base(target_dir, hidden_mode=False):
     target_dir = os.path.abspath(target_dir)
     source_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     
+    # Detect IDEs
+    detected_ides = detect_target_ides(target_dir)
+    
+    # Default to ALL if nothing detected (safe fallback for new projects)
+    if not detected_ides:
+        should_install_cursor = True
+        should_install_vscode = True
+        print("ℹ️  No specific IDE detected. Installing support for ALL IDEs.")
+    else:
+        should_install_cursor = 'cursor' in detected_ides
+        should_install_vscode = 'vscode' in detected_ides
+        print(f"✨ Detected IDEs: {', '.join(detected_ides).upper()}")
+
     # Determine install root
     if hidden_mode:
         install_root = os.path.join(target_dir, ".agent")
@@ -58,59 +96,67 @@ def install_prompt_base(target_dir, hidden_mode=False):
             shutil.copytree(src, dst)
 
     # 3. Handle Cursor Configuration (.cursorrules and .cursor/rules)
-    cursor_rules_src = os.path.join(source_root, ".cursorrules")
-    cursor_rules_dst = os.path.join(target_dir, ".cursorrules")
-    
-    # 3.1 Legacy .cursorrules
-    if os.path.exists(cursor_rules_src):
-        if hidden_mode:
-            rules_content = "# Prompt Base (Hidden Mode)\n"
-            rules_content += "ALWAYS Reference: .agent/GEMINI.md\n"
-            
-            if os.path.exists(cursor_rules_dst):
-                shutil.move(cursor_rules_dst, cursor_rules_dst + ".bak")
-            
-            with open(cursor_rules_dst, 'w') as f:
-                f.write(rules_content)
-        else:
-            if os.path.exists(cursor_rules_dst):
-                 shutil.copy2(cursor_rules_dst, cursor_rules_dst + ".bak")
-            shutil.copy2(cursor_rules_src, cursor_rules_dst)
-        print("✅ Installed .cursorrules")
+    if should_install_cursor:
+        cursor_rules_src = os.path.join(source_root, ".cursorrules")
+        cursor_rules_dst = os.path.join(target_dir, ".cursorrules")
+        
+        # 3.1 Legacy .cursorrules
+        if os.path.exists(cursor_rules_src):
+            if hidden_mode:
+                rules_content = "# Prompt Base (Hidden Mode)\n"
+                rules_content += "ALWAYS Reference: .agent/GEMINI.md\n"
+                
+                if os.path.exists(cursor_rules_dst):
+                    shutil.move(cursor_rules_dst, cursor_rules_dst + ".bak")
+                
+                with open(cursor_rules_dst, 'w') as f:
+                    f.write(rules_content)
+            else:
+                if os.path.exists(cursor_rules_dst):
+                     shutil.copy2(cursor_rules_dst, cursor_rules_dst + ".bak")
+                shutil.copy2(cursor_rules_src, cursor_rules_dst)
+            print("✅ Installed .cursorrules")
 
-    # 3.2 Modern .cursor/rules/
-    cursor_dir_src = os.path.join(source_root, ".cursor")
-    cursor_dir_dst = os.path.join(target_dir, ".cursor")
-    if os.path.exists(cursor_dir_src):
-        print("✅ Installing modern Cursor Rules (.cursor/rules)...")
-        _copy_recursive(cursor_dir_src, cursor_dir_dst)
+        # 3.2 Modern .cursor/rules/
+        cursor_dir_src = os.path.join(source_root, ".cursor")
+        cursor_dir_dst = os.path.join(target_dir, ".cursor")
+        if os.path.exists(cursor_dir_src):
+            print("✅ Installing modern Cursor Rules (.cursor/rules)...")
+            _copy_recursive(cursor_dir_src, cursor_dir_dst)
+    else:
+        print("⏩ Skipping Cursor configuration (not detected)")
 
     # 4. VSCode Setup
-    vscode_dir = os.path.join(target_dir, ".vscode")
-    vscode_dir_src = os.path.join(source_root, ".vscode")
-    if not os.path.exists(vscode_dir):
-        os.makedirs(vscode_dir)
+    instructions_file = None # Initialize for path fixer
     
-    # Copy settings.json if it exists in source
-    settings_src = os.path.join(vscode_dir_src, "settings.json")
-    settings_dst = os.path.join(vscode_dir, "settings.json")
-    if os.path.exists(settings_src):
-        if os.path.exists(settings_dst):
-             shutil.copy2(settings_dst, settings_dst + ".bak")
-        shutil.copy2(settings_src, settings_dst)
-        print("✅ Installed .vscode/settings.json")
-
-    instructions_file = os.path.join(vscode_dir, "ai_instructions.md")
-    if not os.path.exists(instructions_file):
-        ref_path = ".agent/GEMINI.md"
-        reg_path = ".agent/registry.json"
+    if should_install_vscode:
+        vscode_dir = os.path.join(target_dir, ".vscode")
+        vscode_dir_src = os.path.join(source_root, ".vscode")
+        if not os.path.exists(vscode_dir):
+            os.makedirs(vscode_dir)
         
-        with open(instructions_file, "w") as f:
-            f.write("# Prompt Base Instructions\n\n")
-            f.write("You are an AI assistant using the Prompt Base framework.\n")
-            f.write(f"ALWAYS read '{ref_path}' before starting any task.\n")
-            f.write(f"Use '{reg_path}' to find specialized skills.\n")
-        print("✅ Created .vscode/ai_instructions.md")
+        # Copy settings.json if it exists in source
+        settings_src = os.path.join(vscode_dir_src, "settings.json")
+        settings_dst = os.path.join(vscode_dir, "settings.json")
+        if os.path.exists(settings_src):
+            if os.path.exists(settings_dst):
+                 shutil.copy2(settings_dst, settings_dst + ".bak")
+            shutil.copy2(settings_src, settings_dst)
+            print("✅ Installed .vscode/settings.json")
+
+        instructions_file = os.path.join(vscode_dir, "ai_instructions.md")
+        if not os.path.exists(instructions_file):
+            ref_path = ".agent/GEMINI.md"
+            reg_path = ".agent/registry.json"
+            
+            with open(instructions_file, "w") as f:
+                f.write("# Prompt Base Instructions\n\n")
+                f.write("You are an AI assistant using the Prompt Base framework.\n")
+                f.write(f"ALWAYS read '{ref_path}' before starting any task.\n")
+                f.write(f"Use '{reg_path}' to find specialized skills.\n")
+            print("✅ Created .vscode/ai_instructions.md")
+    else:
+        print("⏩ Skipping VSCode configuration (not detected)")
 
     # 5. Path Correction (Hidden Mode)
     # We always perform correction now to ensure no bare "agent/" paths exist
@@ -124,9 +170,12 @@ def install_prompt_base(target_dir, hidden_mode=False):
             if file.endswith(('.md', '.json')):
                 files_to_fix.append(os.path.join(root, file))
     
-    # Also fix the target .cursorrules and ai_instructions.md
-    files_to_fix.append(cursor_rules_dst)
-    files_to_fix.append(instructions_file)
+    # Also fix the target .cursorrules and ai_instructions.md if they were installed
+    if should_install_cursor:
+        files_to_fix.append(os.path.join(target_dir, ".cursorrules")) # Re-derive path
+    
+    if instructions_file and os.path.exists(instructions_file):
+        files_to_fix.append(instructions_file)
     
     for file_path in files_to_fix:
         if os.path.exists(file_path):
@@ -179,6 +228,7 @@ if __name__ == "__main__":
     parser.add_argument("target", nargs="?", default=".", help="Target directory (default: current)")
     parser.add_argument("--hidden", action="store_true", help="Install into .agent/ directory (Hidden Mode)")
     args = parser.parse_args()
+    
     
     # Auto-detect hidden mode preference if .agent exists in target
     target_hidden = os.path.exists(os.path.join(args.target, ".agent"))
