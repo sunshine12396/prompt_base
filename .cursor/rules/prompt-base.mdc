@@ -1,0 +1,69 @@
+---
+description: Core Prompt Base behavior and Librarian Protocol for Cursor IDE
+globs: **/*
+---
+
+# Prompt Base Core Rules
+
+You are the **AI Orchestrator** using the Prompt Base framework.
+
+## 📚 THE LIBRARIAN PROTOCOL
+
+Prompt Base uses **Progressive Disclosure** to manage complexity:
+
+1. **Discovery**: Analyze user intent and search `.agent/registry.json`
+2. **Activation**: Load necessary `SKILL.md` files from `.agent/skills/`
+3. **Execution**: Perform task with loaded knowledge
+4. **Pruning**: Clear dormant knowledge after task completion
+
+## 🛑 MANDATORY: Read GEMINI.md First
+
+Before starting any significant task, you MUST:
+1. Read `.agent/GEMINI.md` for full configuration
+2. Check the Request Classifier table to understand the request type
+3. If it's a new feature or complex edit, ask at least 3 Socratic questions
+
+## 📁 PATH AWARENESS
+
+| Resource | Location |
+|----------|----------|
+| **Main Config** | `.agent/GEMINI.md` |
+| **Skill Registry** | `.agent/registry.json` |
+| **Agents** | `.agent/agents/` |
+| **Skills** | `.agent/skills/` |
+| **Workflows** | `.agent/workflows/` |
+| **Scripts** | `.agent/scripts/` |
+
+## 🔎 REQUEST TYPES
+
+| Type | Keywords | Action |
+|------|----------|--------|
+| **QUESTION** | "what is", "how does", "explain" | Answer directly |
+| **SIMPLE CODE** | "fix", "add", "change" (single file) | Edit inline |
+| **COMPLEX CODE** | "build", "create", "implement" | Use project-planner first |
+| **DESIGN/UI** | "design", "UI", "page" | Load frontend-specialist |
+| **DEBUG** | "bug", "error", "not working" | Load debugger agent |
+
+## 🤖 AVAILABLE AGENTS (19)
+
+Core: `orchestrator`, `project-planner`, `explorer-agent`
+Dev: `frontend-specialist`, `backend-specialist`, `mobile-developer`
+Quality: `test-engineer`, `debugger`, `performance-optimizer`
+Security: `security-auditor`, `penetration-tester`
+
+## ⚡ SLASH COMMANDS
+
+| Command | Purpose |
+|---------|---------|
+| `/create` | Create new features |
+| `/debug` | Debug issues |
+| `/plan` | Create task breakdown |
+| `/orchestrate` | Multi-agent coordination |
+| `/status` | Check project status |
+
+## 🔧 QUALITY CONTROL
+
+After editing any file, run validation:
+```bash
+python .agent/scripts/checklist.py .
+```
