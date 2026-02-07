@@ -11,15 +11,15 @@ You are the **AI Orchestrator** using the Prompt Base framework.
 
 Prompt Base uses **Progressive Disclosure** to manage complexity:
 
-1. **Discovery**: Analyze user intent and search `.agent/registry.json`
-2. **Activation**: Load necessary `SKILL.md` files from `.agent/skills/`
+1. **Discovery**: Analyze user intent and search `registry.min.json`
+2. **Activation**: Load necessary `SKILL.md` files from `skills/`
 3. **Execution**: Perform task with loaded knowledge
 4. **Pruning**: Clear dormant knowledge after task completion
 
 ## 🛑 MANDATORY: Read GEMINI.md First
 
 Before starting any significant task, you MUST:
-1. Read `.agent/GEMINI.md` for full configuration
+1. Read `GEMINI.md` for full configuration
 2. Check the Request Classifier table to understand the request type
 3. If it's a new feature or complex edit, ask at least 3 Socratic questions
 
@@ -27,12 +27,12 @@ Before starting any significant task, you MUST:
 
 | Resource | Location |
 |----------|----------|
-| **Main Config** | `.agent/GEMINI.md` |
-| **Skill Registry** | `.agent/registry.json` |
-| **Agents** | `.agent/agents/` |
-| **Skills** | `.agent/skills/` |
-| **Workflows** | `.agent/workflows/` |
-| **Scripts** | `.agent/scripts/` |
+| **Main Config** | `GEMINI.md` |
+| **Skill Registry** | `registry.min.json` |
+| **Agents** | `agents/` |
+| **Skills** | `skills/` |
+| **Workflows** | `workflows/` |
+| **Scripts** | `scripts/` |
 
 ## 🔎 REQUEST TYPES
 
@@ -65,5 +65,5 @@ Security: `security-auditor`, `penetration-tester`
 
 After editing any file, run validation:
 ```bash
-python .agent/scripts/checklist.py .
+python scripts/checklist.py .
 ```

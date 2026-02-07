@@ -33,7 +33,7 @@ def check_structure():
     critical_files = [
         f"{root_dir}/ARCHITECTURE.md",
         f"{root_dir}/GEMINI.md",
-        f"{root_dir}/registry.json",
+        f"{root_dir}/registry.min.json",
         f"{root_dir}/core/system_prompt.md",
         f"{root_dir}/core/memory_rules.md",
         f"{root_dir}/core/classifier.md",
@@ -64,7 +64,7 @@ def check_structure():
             issues.append(f"❌ Missing directory: {d}")
 
     # 3. Registry Consistency
-    registry_path = f"{root_dir}/registry.json"
+    registry_path = f"{root_dir}/registry.min.json"
     if os.path.exists(registry_path):
         with open(registry_path, "r") as f:
             registry = json.load(f)
@@ -73,7 +73,7 @@ def check_structure():
             for agent in registry.get("agents", []):
                 # Paths in registry might be relative to root or full paths. 
                 # We assume they are relative strings like "agent/agents/..."
-                # If we are in ".agent" mode, the registry should probably say ".agent/agents/..."
+                # If we are in ".agent" mode, the registry should probably say "agents/..."
                 # BUT, if we just blindly check existence, it should work.
                 
                 if not os.path.exists(agent["path"]):
@@ -139,8 +139,8 @@ def check_structure():
                     issues.append(f"⚠️ Orphaned agent found: {os.path.join(agents_dir, f)}")
 
     # 7. Branding Check
-    forbidden_terms = ["agent"] # .agent/ is now allowed
-    # Note: .agent/ is now allowed as a directory, but maybe we shouldn't find it in content as "branding"?
+    forbidden_terms = ["agent"] #  is now allowed
+    # Note:  is now allowed as a directory, but maybe we shouldn't find it in content as "branding"?
     # For now, let's keep the check but maybe relax it or ignore if it's the root.
     
     files_to_check = critical_files
@@ -152,7 +152,7 @@ def check_structure():
                     if term == "agent":
                         # Use regex to find 'agent/' that is NOT preceded by a dot
                         if re.search(r'(?<!\.)agent/', content):
-                            issues.append(f"⚠️ Visible 'agent/' reference found in {f_path} (use '.agent/' or relative paths)")
+                            issues.append(f"⚠️ Visible 'agent/' reference found in {f_path} (use '' or relative paths)")
                         continue
                     if term in content:
                         issues.append(f"⚠️ Forbidden term '{term}' found in {f_path}")

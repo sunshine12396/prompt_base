@@ -2,7 +2,7 @@
 
 ## Clean Code (Global Mandatory)
 
-**ALL code MUST follow rules in `.agent/skills/core/clean-code/SKILL.md`. No exceptions.**
+**ALL code MUST follow rules in `skills/core/clean-code/SKILL.md`. No exceptions.**
 
 - **Self-Documentation**: Every agent is responsible for documenting their own changes in relevant `.md` files.
 - **Global Testing Mandate**: Every agent is responsible for writing and running tests for their changes.
@@ -12,6 +12,7 @@
 ## File Dependency Awareness
 
 **Before modifying ANY file:**
+
 1. Check `CODEBASE.md` → File Dependencies
 2. Identify dependent files
 3. Update ALL affected files together
@@ -21,9 +22,10 @@
 > 🔴 **MANDATORY**: Read `ARCHITECTURE.md` and `registry.min.json` at session start.
 
 **Path Awareness:**
+
 - Agents: `[ROOT]/agents/`
 - Skills: `[ROOT]/skills/{core|tech|process|custom}/`
 - Core Config: `[ROOT]/core/`
-- Registry: `[ROOT]/registry.json`
+- Registry: `[ROOT]/registry.min.json`
 
-*(Note: [ROOT] is usually `.agent/` or `..agent/` depending on installation)*
+_(Note: [ROOT] is usually `.agent`, `prompt_base`, or `.` depending on installation. Always check for `registry.min.json` to find the root.)_

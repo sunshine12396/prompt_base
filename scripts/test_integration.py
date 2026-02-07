@@ -33,7 +33,7 @@ def test_integration():
     # 4. Verify installation in parent (mock_project)
     checks = [
         os.path.join(mock_project, ".agent", "GEMINI.md"),
-        os.path.join(mock_project, ".agent", "registry.json"),
+        os.path.join(mock_project, ".agent", "registry.min.json"),
         os.path.join(mock_project, ".cursorrules"),
         os.path.join(mock_project, ".vscode", "settings.json")
     ]
@@ -48,7 +48,7 @@ def test_integration():
     # 5. Verify path correction
     with open(os.path.join(mock_project, ".agent", "GEMINI.md"), "r") as f:
         content = f.read()
-        if ".agent/registry.json" in content:
+        if "registry.min.json" in content:
             print("✅ Verified Path Correction (Hidden Mode active in docs)")
         else:
             print("❌ Path Correction Failed in GEMINI.md")

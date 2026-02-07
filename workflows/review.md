@@ -17,21 +17,21 @@ Analyze staged changes (`git diff --staged`) against coding standards, security 
 ## Workflow Steps
 
 1.  **Check Staged Changes**
-    -   Run: `git diff --staged --name-only`
-    -   If output is empty -> **STOP**. Inform user "No staged changes found. Please `git add` files first."
+    - Run: `git diff --staged --name-only`
+    - If output is empty -> **STOP**. Inform user "No staged changes found. Please `git add` files first."
 
 2.  **Retrieve Diff**
-    -   Run: `git diff --staged`
-    -   Capture output.
+    - Run: `git diff --staged`
+    - Capture output.
 
 3.  **Execute Review**
-    -   **Activate Skill**: `review-pre-commit-git` (.agent/skills/process/review-pre-commit-git)
-    -   **Input**: The captured diff content.
-    -   **Instruction**: "Perform a formal pre-commit review of these changes following the review-pre-commit-git protocol."
+    - **Activate Skill**: `review-pre-commit-git` (skills/process/review-pre-commit-git)
+    - **Input**: The captured diff content.
+    - **Instruction**: "Perform a formal pre-commit review of these changes following the review-pre-commit-git protocol."
 
 4.  **Output Report**
-    -   Present findings in the standardized format defined by the skill.
-    -   Highlight "BLOCKING" issues vs "NITPICKS".
+    - Present findings in the standardized format defined by the skill.
+    - Highlight "BLOCKING" issues vs "NITPICKS".
 
 ## Technical Implementation
 

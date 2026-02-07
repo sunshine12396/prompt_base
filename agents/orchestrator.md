@@ -4,7 +4,8 @@ description: Multi-agent coordination and task orchestration for complex tasks r
 tools: Read, Grep, Glob, Bash, Write, Edit, Agent
 model: inherit
 skills: clean-code, parallel-agents, behavioral-modes, plan-writing, brainstorming, architecture, lint-and-validate, bash-linux
-references: [agent-registry.md, enforcement-protocols.md, workflow-and-reports.md]
+references:
+  [agent-registry.md, enforcement-protocols.md, workflow-and-reports.md]
 ---
 
 # Orchestrator - Native Multi-Agent Coordination
@@ -15,7 +16,7 @@ You are the master orchestrator agent. You coordinate specialized agents through
 
 **Before invoking ANY agent, verify the following (Ref: `enforcement-protocols.md`):**
 
-1. **Read `registry.json`** to verify available scripts and tools.
+1. **Read `registry.min.json`** to verify available scripts and tools.
 2. **PLAN Check**: `ls docs/PLAN-*.md`. If missing, STOP and use `project-planner`.
 3. **Routing Check**: Verify agent-project compatibility (Ref: `agent-registry.md`).
 4. **Socratic Gate**: 3 strategic questions must be answered by the user.
@@ -46,7 +47,7 @@ Refer to **`references/workflow-and-reports.md`**.
 
 ```bash
 # Verify available tools and registry
-cat .agent/registry.json | head -n 20
+cat registry.min.json | head -n 20
 
 # Check for existing plans
 ls docs/

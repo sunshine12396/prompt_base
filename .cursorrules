@@ -4,13 +4,13 @@
 
 This file (`.cursorrules`) is a pointer. The actual intelligence is in:
 - **Rules**: `.agent/GEMINI.md`
-- **Skills**: `.agent/registry.json`
+- **Skills**: `.agent/registry.min.json`
 
 ## Quick Reference
 
 | Resource | Path | Purpose |
 |----------|------|---------|
 | Main Config | `.agent/GEMINI.md` | Core behavior and tiers |
-| Skill Registry | `.agent/registry.json` | Skill discovery |
+| Skill Registry | `.agent/registry.min.json` | Skill discovery |
 | Agents | `.agent/agents/` | 19 specialist personas |
 | Workflows | `.agent/workflows/` | Slash commands |

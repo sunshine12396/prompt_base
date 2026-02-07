@@ -13,7 +13,36 @@ def get_frontmatter(file_path):
                 return {}
     return {}
 
-def build_registry(root_dir="agent"):
+def build_registry(framework_dir=".", force_prefix=None):
+    """
+    Builds the registry.min.json file.
+    framework_dir: The directory containing agents/, skills/, etc.
+    force_prefix: Optional string to force as prefix (e.g., ".agent/")
+    """
+    # Current workspace root (where the script is being run from)
+    workspace_root = os.getcwd()
+    
+    # Framework root (absolute)
+    abs_framework_root = os.path.abspath(framework_dir)
+    
+    if force_prefix is not None:
+        rel_prefix = force_prefix
+        print(f"🔗 Using forced prefix: '{rel_prefix}'")
+    else:
+        # Path from workspace_root to framework_root
+        try:
+            rel_prefix = os.path.relpath(abs_framework_root, workspace_root)
+            if rel_prefix == ".":
+                rel_prefix = ""
+            else:
+                rel_prefix = rel_prefix + "/"
+        except ValueError:
+            # If on different drives (Windows), use absolute paths or fallback
+            rel_prefix = abs_framework_root + "/"
+        print(f"🔗 Calculated path prefix: '{rel_prefix}'")
+
+    print(f"📍 Framework located at: {abs_framework_root}")
+
     registry = {
         "agents": [],
         "skills": {
@@ -25,24 +54,24 @@ def build_registry(root_dir="agent"):
     }
 
     # Agents
-    agent_dir = os.path.join(root_dir, "agents")
+    agent_dir = os.path.join(abs_framework_root, "agents")
     if os.path.exists(agent_dir):
-        for f in os.listdir(agent_dir):
+        for f in sorted(os.listdir(agent_dir)):
             if f.endswith('.md'):
                 meta = get_frontmatter(os.path.join(agent_dir, f))
                 registry["agents"].append({
                     "id": f.replace('.md', ''),
                     "name": meta.get('name', f),
                     "description": meta.get('description', ''),
-                    "path": os.path.join(agent_dir, f)  # Path relative to project root
+                    "path": f"{rel_prefix}agents/{f}"
                 })
 
     # Skills
     skill_categories = ["core", "tech", "process", "custom"]
     for cat in skill_categories:
-        cat_path = os.path.join(root_dir, "skills", cat)
+        cat_path = os.path.join(abs_framework_root, "skills", cat)
         if os.path.exists(cat_path):
-            for d in os.listdir(cat_path):
+            for d in sorted(os.listdir(cat_path)):
                 skill_dir = os.path.join(cat_path, d)
                 skill_md = os.path.join(skill_dir, "SKILL.md")
                 if os.path.isdir(skill_dir) and os.path.exists(skill_md):
@@ -51,25 +80,31 @@ def build_registry(root_dir="agent"):
                         "id": d,
                         "name": meta.get('name', d),
                         "description": meta.get('description', ''),
-                        "path": skill_dir
+                        "path": f"{rel_prefix}skills/{cat}/{d}"
                     })
 
-    # Write registry to the root_dir
-    registry_file = os.path.join(root_dir, "registry.json")
+    # Write registry to the framework_dir
+    registry_file = os.path.join(abs_framework_root, "registry.min.json")
     with open(registry_file, "w") as f:
         json.dump(registry, f, indent=2)
+    
+    # Also create minified version
+    min_file = os.path.join(abs_framework_root, "registry.min.json")
+    with open(min_file, "w") as f:
+        json.dump(registry, f, separators=(',', ':'))
+        
     print(f"✅ Generated registry at: {registry_file}")
 
 if __name__ == "__main__":
     import sys
-    # Default to "agent" but allow override
-    target_root = ".agent"
+    # Default to current directory where script resides
+    script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    target_framework = script_dir
     
-    # Simple check for .agent existence preference
-    if os.path.exists(".agent") and not os.path.exists("agent"):
-        target_root = ".agent"
-        
     if len(sys.argv) > 1:
-        target_root = sys.argv[1]
-        
-    build_registry(target_root)
+        target_framework = sys.argv[1]
+        # When called with arguments (e.g. from sidekick), calculate path
+        build_registry(target_framework)
+    else:
+        # Default manual run: Assume .agent/ prefix for distribution
+        build_registry(target_framework, force_prefix=".agent/")
