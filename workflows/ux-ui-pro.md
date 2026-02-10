@@ -1,5 +1,5 @@
 ---
-description: Execute a professional UX/UI design workflow to deliver premium, accessible, and fully responsive interfaces using the UX/UI Pro design system.
+description: Execute a professional UX/UI design workflow using the UX/UI Pro Max design intelligence system.
 ---
 
 # `/ux-ui-pro` — Professional Design Workflow
@@ -10,111 +10,82 @@ description: Execute a professional UX/UI design workflow to deliver premium, ac
 
 ## Objective
 
-This workflow defines a structured, high-quality process for designing modern user interfaces. It ensures visual consistency, accessibility compliance, responsiveness, and a premium aesthetic across platforms.
+This workflow leverages the **UX/UI Pro Max** intelligence system to deliver premium, accessible, and fully responsive interfaces. It uses a data-driven approach to select style guides, color palettes, and typography based on the specific industry and product type.
 
 ---
 
 ## Workflow Steps
 
-### 1. Discovery & Context
+### 1. Discovery & Requirement Analysis
 
-- **Analyze the Request**
-  - Identify:
-    - Industry (Fintech, Health, Gaming, SaaS, etc.)
-    - Platform (Web, Mobile, Desktop)
-    - Visual direction (Minimal, Bold, Luxury, Playful, etc.)
-
-- **Clarify Requirements** _(ask only if missing)_
-  - Target industry?
-  - Light mode, dark mode, or both?
-  - Mobile-first or desktop-first?
-  - Primary goal (conversion, engagement, productivity)?
+- **Identify Core Context**
+  - **Product Type**: SaaS, e-commerce, portfolio, dashboard, etc.
+  - **Industry**: Health, Fintech, Gaming, Education, etc.
+  - **Keywords**: Minimal, luxury, playful, glassmorphism, bold, etc.
+  - **Stack**: Default to `html-tailwind` unless specified (e.g., React, Next.js).
 
 ---
 
-### 2. Resource Selection (Selective Loading)
+### 2. Design System Generation (Intelligence Step)
 
-- **Follow the loading protocol** in  
-  `skills/process/ux-ui-pro/SKILL.md`
+- **Execute Design System Search**
+  - Run the `ux-ui-pro-max` search script to generate a comprehensive design system recommendation.
+  // turbo
+  - Command: `python3 skills/tech/ux-ui-pro-max/scripts/search.py "<product_type> <industry> <keywords>" --design-system -p "<Project Name>" --persist`
 
-- **Load only required references**
-  - `references/color-palettes.md` — Color systems
-  - `references/typography-presets.md` — Type scales & hierarchy
-  - `references/spacing-layouts.md` — Grid & spacing systems
-  - `references/components.md` — UI components & patterns
-  - _(Optional)_ `visual-effects.md` or `animations.md` when needed
-
-> ⚠️ **Do not load all resources by default.** Load only what the task requires.
+- **Analyze Results**
+  - Review the generated `design-system/MASTER.md`.
+  - Check recommended **Pattern**, **Style**, **Colors**, **Typography**, and **Key Effects**.
+  - Note the **Anti-patterns** list to avoid common UI mistakes.
 
 ---
 
-### 3. Foundation Strategy
+### 3. Foundation & Token Implementation
 
-- **Color Palette**
-  - Select an industry-appropriate palette from references
-  - Apply the 60-30-10 color distribution rule
+- **Set Up Global Styles**
+  - Implement the recommended color palette and typography from the design system.
+  - Apply the **60-30-10 color distribution** rule (60% background, 30% secondary, 10% accent/CTA).
+  - Use the tokens (CSS variables) defined in `design-system/MASTER.md`.
 
-- **Design Tokens**
-  - Define CSS variables for:
-    - Colors
-    - Typography
-    - Spacing
-  - Use the token template from `SKILL.md`
-
-- **Layout System**
-  - Establish an 8pt grid system
-  - Define breakpoints and max-widths early
+- **Responsive Grid Foundation**
+  - Establish an **8pt grid system**.
+  - Set up standard breakpoints (375px, 768px, 1024px, 1440px).
 
 ---
 
-### 4. Component & Layout Design
+### 4. Component Implementation
 
-- **Component Creation**
-  - Use standardized patterns from `components.md`
-  - Ensure consistency across states (hover, focus, disabled)
+- **Build Core Components**
+  - Use the `ux-ui-pro-max` stack guidelines if needed:
+    `python3 skills/tech/ux-ui-pro-max/scripts/search.py "<component>" --stack <stack_name>`
+  - Ensure all clickable elements have `cursor-pointer`.
+  - Implement hover/focus transitions (150-300ms) as specified in the "Key Effects".
 
-- **Visual Styling**
-  - Apply shadows, gradients, or glassmorphism sparingly
-  - Prioritize clarity over decoration
-
-- **Responsive Behavior**
-  - **Mobile-first**
-    - Fluid widths
-    - Touch targets ≥ 44px
-  - **Desktop**
-    - Grid-based layouts
-    - Controlled max-widths
+- **Visual Polish**
+  - Apply effects (shadows, gradients, glassmorphism) according to the generated style guide.
+  - Ensure **no emojis** are used as icons; use SVG libraries (Heroicons, Lucide).
 
 ---
 
-### 5. Quality Assurance (Design Gate)
+### 5. Quality Gate (Pre-Delivery)
 
-- **Accessibility**
-  - WCAG 2.1 AA contrast compliance
-  - Keyboard-friendly interactions
-  - Clear focus states
+- **Accessibility Check**
+  - WCAG 2.1 AA contrast compliance (minimum 4.5:1 for body text).
+  - Visible focus rings and keyboard-friendly navigation.
+  - `prefers-reduced-motion` support.
 
-- **Dark Mode**
-  - Avoid pure black
-  - Use neutral slate/gray scales
-
-- **Anti-Pattern Review**
-  - No visual noise
-  - No excessive effects
-  - No inconsistent spacing or typography
+- **Responsive Review**
+  - Verify layout at all 4 breakpoints.
+  - Check touch target sizes (minimum 44x44px for mobile).
+  - Ensure no horizontal scroll on mobile devices.
 
 ---
 
-### 6. Deliverables & Handoff
+### 6. Final Delivery
 
-- **Design Specification** (if requested)
-  - Create a markdown summary of choices (Palette, Typography, Strategy)
-  - Explain _why_ certain decisions were made
-
-- **Implementation Plan** (if coding)
-  - Update `index.css` or equivalent first
-  - Create reusable component files
-  - Assemble pages/screens
+- **Documentation Handoff**
+  - Provide the `design-system/MASTER.md` to the user as the design source of truth.
+  - Explain the reasoning behind the chosen style and hierarchy.
 
 ---
 
@@ -122,12 +93,13 @@ This workflow defines a structured, high-quality process for designing modern us
 
 Before marking the task as complete, verify:
 
-- [ ] **Context**: Is the industry & goal clear?
-- [ ] **Resources**: Are only necessary references loaded?
-- [ ] **Color**: Is the 60-30-10 rule applied?
-- [ ] **Typography**: Is the hierarchy distinct?
-- [ ] **Mobile**: Are touch targets ≥ 44px?
+- [ ] **Intelligence**: Was the design system generated via `search.py --design-system`?
+- [ ] **Persistence**: Is the `design-system/MASTER.md` file created?
+- [ ] **Color**: Is the 60-30-10 rule applied with industry-correct colors?
+- [ ] **Icons**: Are icons SVG-based (no emojis)?
+- [ ] **Interaction**: Do all interactive elements have `cursor-pointer` and transitions?
 - [ ] **Accessibility**: Is contrast WCAG AA compliant?
-- [ ] **Dark Mode**: Are backgrounds slate/gray (not black)?
+- [ ] **Responsive**: Is it verified from 375px up to 1440px?
+- [ ] **Dark Mode**: If applicable, does it follow the neutrals/slate guide?
 
 ---
