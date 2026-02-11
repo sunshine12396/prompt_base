@@ -4,9 +4,9 @@
 
 Prompt Base is a modular system consisting of:
 
-- **19 Specialist Agents** - Role-based AI personas
-- **44 Skills** - Categorized knowledge modules
-- **13 Workflows** - Slash command procedures
+- **14 Specialist Agents** - Role-based AI personas
+- **40 Skills** - Categorized knowledge modules
+- **14 Workflows** - Slash command procedures
 
 ---
 
@@ -18,11 +18,12 @@ Prompt Base lives in a hidden subfolder (`.agent/`) within your project.
 <project-root>/
 ├── .agent/               # Framework Subfolder (Cloned here)
 │   ├── core/             # Global rules and orchestration logic
-│   ├── agents/           # 19 Specialist Agents
+│   ├── agents/           # 14 Specialist Agents
 │   ├── skills/           # Categorized Skills
 │   ├── workflows/        # Slash commands
 │   ├── registry.min.json # Unified metadata index
 │   └── GEMINI.md         # Global governance
+├── docs/                 # Task plans (docs/PLAN-*.md)
 ├── .cursorrules          # Pointer to .agent/GEMINI.md
 └── ...                   # Your project files
 ```
@@ -40,21 +41,21 @@ Prompt Base uses **Progressive Disclosure** to manage complexity. Skills remain 
 
 ---
 
-## 🤖 Agents (19)
+## 🤖 Agents (14)
 
 | Category            | Agents                                                                                             |
 | ------------------- | -------------------------------------------------------------------------------------------------- |
-| **Core**            | `orchestrator`, `project-planner`, `explorer-agent`, `skill-librarian`, `context-architect`        |
-| **Dev**             | `frontend-specialist`, `backend-specialist`, `mobile-developer`, `game-developer`                  |
-| **Quality**         | `test-engineer`, `debugger`, `performance-optimizer`, `documentation-writer`, `quality-gatekeeper` |
-| **Infra/Sec**       | `devops-engineer`, `security-auditor`, `penetration-tester`, `database-architect`                  |
+| **Core**            | `orchestrator`, `project-planner`, `explorer-agent`                                                |
+| **Dev**             | `frontend-specialist`, `backend-specialist`, `mobile-developer`                                    |
+| **Quality**         | `test-engineer`, `debugger`, `performance-optimizer`, `documentation-writer`                       |
+| **Infra/Sec**       | `devops-engineer`, `security-auditor`, `database-architect`                                        |
 | **Growth & Search** | `seo-specialist`                                                                                   |
 
 ---
 
 ## 🧠 Skills (40)
 
-### Core
+### Core (8)
 
 | Skill                | Description               |
 | -------------------- | ------------------------- |
@@ -64,26 +65,31 @@ Prompt Base uses **Progressive Disclosure** to manage complexity. Skills remain 
 | `architecture`       | System design             |
 | `skill-loading`      | JIT Knowledge discovery   |
 | `context-management` | Context efficiency (MVC)  |
-| `reasoning`          | Deductive problem-solving |
+| `behavioral-modes`   | Operational personas      |
+| `parallel-agents`    | Multi-perspective analysis|
 
-### Technology
+### Technology (16)
 
 | Category    | Skills                                                                              |
 | ----------- | ----------------------------------------------------------------------------------- |
 | **Web**     | `react-patterns`, `nextjs-best-practices`, `tailwind-patterns`, `typescript-expert` |
-| **Backend** | `nodejs-best-practices`, `python-patterns`, `prisma-expert`, `nestjs-expert`        |
+| **Backend** | `nodejs-best-practices`, `python-patterns`, `prisma-expert`, `nestjs-expert`, `golang-best-practices`, `api-patterns` |
 | **Mobile**  | `mobile-design`                                                                     |
-| **Other**   | `database-design`, `docker-expert`, `game-development`                              |
+| **Other**   | `database-design`, `docker-expert`, `game-development`, `ux-ui-pro-max`, `mcp-builder` |
 
-### Process
+### Process (16)
 
-- `testing-patterns`, `tdd-workflow`, `vulnerability-scanner`, `automation-testing`.
-- `seo-fundamentals`, `geo-fundamentals`, `i18n-localization`.
-- `bash-linux`, `powershell-windows`, `server-management`.
+| Category    | Skills                                                                              |
+| ----------- | ----------------------------------------------------------------------------------- |
+| **Testing** | `testing-patterns`, `tdd-workflow`, `webapp-testing`, `lint-and-validate`           |
+| **Security**| `vulnerability-scanner`, `red-team-tactics`, `red-teaming`                           |
+| **Growth**  | `seo-fundamentals`, `geo-fundamentals`                                              |
+| **Ops**     | `deployment-procedures`, `server-management`, `bash-linux`, `powershell-windows`    |
+| **Meta**    | `code-review-checklist`, `documentation-templates`, `review-pre-commit-git`, `i18n-localization` |
 
 ---
 
-## 🔄 Workflows (10)
+## 🔄 Workflows (14)
 
 | Command         | Description                   |
 | --------------- | ----------------------------- |
@@ -94,12 +100,13 @@ Prompt Base uses **Progressive Disclosure** to manage complexity. Skills remain 
 | `/enhance`      | Improve existing code         |
 | `/orchestrate`  | Multi-agent coordination      |
 | `/plan`         | Task breakdown                |
-| `/preview`      | Preview changes               |
 | `/status`       | Check project status          |
 | `/test`         | Run tests                     |
 | `/init-context` | Initialize MVC                |
 | `/deep-solve`   | JIT Knowledge workflow        |
 | `/restructure`  | Maintenance & registry update |
+| `/review`       | Pre-commit audit              |
+| `/ux-ui-pro`    | Design intelligence           |
 
 ---
 
@@ -107,18 +114,29 @@ Prompt Base uses **Progressive Disclosure** to manage complexity. Skills remain 
 
 | Metric              | Value |
 | ------------------- | ----- |
-| **Total Agents**    | 19    |
-| **Total Skills**    | 44    |
-| **Total Workflows** | 13    |
+| **Total Agents**    | 14    |
+| **Total Skills**    | 40    |
+| **Total Workflows** | 14    |
 
 ---
 
-## 🔗 Quick Reference
+## � Critical File Dependencies
+
+| File | Depends On | Why? |
+| ---- | ---------- | ---- |
+| `registry.min.json` | All `.md` files in `agents/` and `skills/` | Source of truth for paths and descriptions. |
+| `GEMINI.md` | `core/*.md` | Governance and rule enforcement. |
+| `ARCHITECTURE.md` | `registry.min.json` | Statistics and module overview. |
+| `README.md` | `ARCHITECTURE.md` | General project overview and setup. |
+
+---
+
+## �🔗 Quick Reference
 
 | Need        | Agent                 | Category       |
 | ----------- | --------------------- | -------------- |
 | Web App     | `frontend-specialist` | UI/UX & Growth |
 | API         | `backend-specialist`  | API & Logic    |
-| JIT Loading | `skill-librarian`     | Discovery      |
-| Context     | `context-architect`   | Efficiency     |
-| Quality     | `quality-gatekeeper`  | Final Review   |
+| Discovery   | `orchestrator`        | Orchestration  |
+| Efficiency  | `orchestrator`        | Orchestration  |
+| Quality     | `test-engineer`       | Quality        |

@@ -52,7 +52,7 @@ Intent Analysis → Consult {SUBFOLDER}/registry.min.json
 | **SIMPLE CODE**  | "fix", "add", "change" (single file)                | TIER 0 + TIER 1 (lite)         | Inline Edit                  |
 | **COMPLEX CODE** | "build", "create", "implement", "refactor"          | TIER 0 + TIER 1 (full) + Agent | **docs/PLAN-\*.md Required** |
 | **DESIGN/UI**    | "design", "UI", "page", "dashboard"                 | TIER 0 + TIER 1 + Agent        | **docs/PLAN-\*.md Required** |
-| **SLASH CMD**    | /create, /orchestrate, /debug, /deep-solve, /review | Command-specific flow          | Variable                     |
+| **SLASH CMD**    | /brainstorm, /create, /debug, /deploy, /enhance, /orchestrate, /plan, /status, /test, /init-context, /deep-solve, /restructure, /review, /ux-ui-pro | Command-specific flow | Variable |
 
 ---
 
@@ -65,11 +65,12 @@ Intent Analysis → Consult {SUBFOLDER}/registry.min.json
 - **Self-Documentation**: Update `.md` files.
 - **Global Testing**: Mandate tests for all changes.
 - **Safety**: Follow deployment phases.
+- **Modern Tech**: Prioritize high-performance, next-gen frameworks/libraries.
 - **Quality**: Review via `quality-gatekeeper`.
 
 ### 📁 File Dependency Awareness
 
-1. Check `CODEBASE.md` → File Dependencies
+1. Check `ARCHITECTURE.md` → File Dependencies
 2. Update ALL affected files together
 
 ### 🗺️ System Map Read

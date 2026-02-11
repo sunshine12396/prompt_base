@@ -2,514 +2,210 @@
 name: clean-code
 description: Pragmatic coding standards - concise, direct, no over-engineering, modern tech stack
 allowed-tools: Read, Write, Edit
-version: 3.0
+version: 3.1
 priority: CRITICAL
 ---
 
-# Clean Code - Modern Development Standards
+# Clean Code - Standards & Fundamentals
 
-> **CRITICAL SKILL** - Write **clean, maintainable, production-ready** code using **latest technologies**.
+> **Definition**: Code is clean if it can be understood easily by everyone on the team. It can be read and enhanced by a developer other than its original author. With understandability comes readability, changeability, extensibility, and maintainability.
 
 ---
 
-## 1. Core Principles
+## 1. Core Principles & General Rules
 
 | Principle | Rule |
 |-----------|------|
-| **SRP** | Single Responsibility - each function/class does ONE thing |
-| **DRY** | Don't Repeat Yourself - extract duplicates, reuse |
-| **KISS** | Keep It Simple - simplest solution that works |
-| **YAGNI** | You Aren't Gonna Need It - don't build unused features |
-| **Boy Scout** | Leave code cleaner than you found it |
-| **Fail Fast** | Validate early, throw early, recover gracefully |
+| **SRP** | Single Responsibility - each function/class does ONE thing. |
+| **DRY** | Don't Repeat Yourself - extract duplicates, reuse. |
+| **KISS** | Keep It Simple - the simplest solution is always better. Reduce complexity. |
+| **YAGNI** | You Aren't Gonna Need It - don't build unused features. |
+| **Boy Scout** | Leave the campground cleaner than you found it. |
+| **Root Cause** | Always look for and fix the root cause, not just the symptom. |
+| **Conventions** | Follow standard team/language conventions consistently. |
+| **Fail Fast** | Validate early, throw early, recover gracefully. |
 
 ---
 
-## 2. Modern Tech Stack (Priority Order)
+## 2. Design Rules
 
-### 2.1 Frontend Stack
-
-| Category | Preferred | Alternative | Avoid |
-|----------|-----------|-------------|-------|
-| **Framework** | Next.js 15+ (App Router) | Remix, Astro | Create React App |
-| **Styling** | Tailwind CSS v4 | CSS Modules | Styled-components |
-| **State** | TanStack Query + Zustand | Jotai | Redux (legacy) |
-| **Forms** | React Hook Form + Zod | Conform | Formik |
-| **Animation** | Framer Motion | GSAP | CSS-only complex |
-| **Components** | shadcn/ui + Radix | Headless UI | MUI, Ant Design |
-
-### 2.2 Backend Stack
-
-| Category | Preferred | Alternative | Avoid |
-|----------|-----------|-------------|-------|
-| **Runtime** | Bun | Node.js 22+ | Node < 20 |
-| **Framework** | Hono (edge) | Fastify, Elysia | Express |
-| **Validation** | Zod, Valibot | ArkType | Joi, Yup |
-| **ORM** | Drizzle | Prisma | TypeORM, Sequelize |
-| **Auth** | Better-Auth, Lucia | Auth.js | Passport.js |
-| **API Style** | tRPC (internal), REST (public) | GraphQL | SOAP |
-
-### 2.3 Database Stack
-
-| Category | Preferred | Alternative | Avoid |
-|----------|-----------|-------------|-------|
-| **Serverless SQL** | Neon, Turso | PlanetScale | Local-only SQLite |
-| **Local Dev** | SQLite + Drizzle | Docker Postgres | Manual SQL |
-| **Vector DB** | pgvector | Pinecone | Weaviate |
-| **Cache** | Upstash Redis | Vercel KV | Local Redis |
-| **File Storage** | Cloudflare R2 | S3, Supabase | Local filesystem |
-
-### 2.4 DevOps & Infrastructure
-
-| Category | Preferred | Alternative | Avoid |
-|----------|-----------|-------------|-------|
-| **Hosting** | Vercel, Cloudflare | Railway, Fly.io | Heroku |
-| **Edge** | Cloudflare Workers | Vercel Edge | Lambda (cold start) |
-| **Containers** | Docker + Compose | Podman | Manual deployment |
-| **CI/CD** | GitHub Actions | GitLab CI | Jenkins |
-| **Monitoring** | Sentry, Axiom | Datadog | Console.log only |
-
-### 2.5 Testing Stack
-
-| Category | Preferred | Alternative | Avoid |
-|----------|-----------|-------------|-------|
-| **Unit** | Vitest | Jest | Mocha |
-| **E2E** | Playwright | Cypress | Selenium |
-| **API** | Bruno, Hoppscotch | Postman | curl scripts |
-| **Component** | Testing Library | Enzyme | Manual testing |
+- **High-Level Config**: Keep configurable data at high levels (constants, env, config files).
+- **Polymorphism**: Prefer polymorphism to `if/else` or `switch/case` for behavior selection.
+- **Async/Threading**: Separate multi-threading or async orchestration code from business logic.
+- **Dependency Injection**: Use DI to decouple classes from their direct dependencies.
+- **Law of Demeter**: A class should know only its direct dependencies (don't reach through objects).
+- **Prevent Over-Configurability**: Avoid adding too many options that aren't actually needed.
+- **Base/Derivatives**: Base classes should know nothing about their derivatives.
 
 ---
 
-## 3. TypeScript Standards
+## 3. Understandability & Logic
 
-### 3.1 Strict Mode (MANDATORY)
-
-```json
-// tsconfig.json - MINIMUM settings
-{
-  "compilerOptions": {
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "exactOptionalPropertyTypes": true
-  }
-}
-```
-
-### 3.2 Type Patterns
-
-| Pattern | ✅ Do | ❌ Don't |
-|---------|-------|---------|
-| **Inference** | Let TS infer when obvious | Annotate everything |
-| **any** | Never use | `any` anywhere |
-| **unknown** | Use for external data | Trust external input |
-| **as** | Avoid type assertions | `as Type` everywhere |
-| **Generics** | Use for reusable code | Copy-paste types |
-| **Zod** | Validate runtime + infer types | Manual type guards |
-
-### 3.3 Import Organization
-
-```typescript
-// Order: external → internal → relative → types
-import { useState } from 'react';           // 1. External packages
-import { api } from '@/lib/api';            // 2. Internal aliases
-import { Button } from './components';      // 3. Relative imports
-import type { User } from '@/types';        // 4. Type imports (last)
-```
+- **Consistency**: Doing similar things in the same way reduces cognitive load.
+- **Explanatory Variables**: Use variables to break down complex expressions (Self-documenting).
+- **Encapsulate Boundaries**: Put boundary condition processing in one dedicated place.
+- **Value Objects**: Prefer dedicated value objects to primitive types (Primitive Obsession).
+- **Logical Dependencies**: Avoid methods that work only if something else in the class is in a specific state.
+- **Positive Conditionals**: Favor `if (shouldShow)` over `if (!isHidden)`.
 
 ---
 
-## 4. Naming Conventions
+## 4. Modern Tech Mandate (Priority Stack)
 
-### 4.1 General Rules
+> **RULE**: Always prioritize modern, high-performance libraries and stable, next-generation frameworks. Avoid legacy patterns (e.g., use Next.js 15 over CRA, Tailwind v4 over CSS-in-JS).
 
-| Element | Convention | Example |
-|---------|------------|---------|
-| **Variables** | camelCase, descriptive | `userCount`, `isLoading` |
-| **Functions** | camelCase, verb+noun | `getUserById()`, `handleSubmit()` |
-| **Components** | PascalCase | `UserProfile`, `NavBar` |
-| **Hooks** | use + camelCase | `useAuth`, `useLocalStorage` |
-| **Constants** | SCREAMING_SNAKE | `MAX_RETRY_COUNT`, `API_URL` |
-| **Types/Interfaces** | PascalCase | `User`, `ApiResponse<T>` |
-| **Enums** | PascalCase + PascalCase members | `Status.Active` |
-| **Files** | kebab-case or match export | `user-profile.tsx`, `Button.tsx` |
+### 4.1 Frontend Preferred
+| Category | Preferred | Avoid |
+|----------|-----------|-------|
+| **Framework** | Next.js 15+ (App Router) | Create React App |
+| **Styling** | Tailwind CSS v4 | CSS Modules, Styled-Comp |
+| **State** | TanStack Query + Zustand | Redux (legacy) |
+| **Animation** | Framer Motion | GSAP (unless complex) |
+| **Components** | shadcn/ui + Radix | MUI, Ant Design |
 
-### 4.2 Boolean Naming
-
-```typescript
-// ✅ Good - Question form
-const isLoading = true;
-const hasPermission = false;
-const canEdit = user.role === 'admin';
-const shouldRefetch = staleTime > 0;
-
-// ❌ Bad
-const loading = true;
-const permission = false;
-const edit = true;
-```
-
-### 4.3 Function Naming
-
-```typescript
-// ✅ Good - Action + Target
-function getUserById(id: string) { }
-function validateEmail(email: string) { }
-function handleFormSubmit(data: FormData) { }
-function createPaymentIntent(amount: number) { }
-
-// ❌ Bad - Vague
-function process(data: any) { }
-function doStuff() { }
-function helper() { }
-```
+### 4.2 Backend & Data Preferred
+| Category | Preferred | Avoid |
+|----------|-----------|-------|
+| **Runtime** | Bun, Node.js 22+ | Node < 20 |
+| **Framework** | Hono, Fastify | Express |
+| **Validation** | Zod | Joi, Yup |
+| **ORM** | Drizzle | Prisma (if speed-critical), TypeORM |
+| **SQL** | Neon, Turso | Local-only SQLite |
 
 ---
 
-## 5. Function Rules
+## 5. TypeScript Standards
 
-### 5.1 Size & Complexity
+- **Strict Mode**: Mandatory `strict: true` and `noUncheckedIndexedAccess`.
+- **Typing**: No `any`. Use `unknown` for external data. Let TS infer when obvious.
+- **Organization**: Group imports (external → internal → absolute aliases → types).
 
-| Rule | Limit |
-|------|-------|
-| **Lines** | Max 20-30, ideal 5-15 |
-| **Arguments** | Max 3, prefer 0-2 |
-| **Nesting** | Max 2 levels |
-| **Cyclomatic complexity** | Max 10 |
+---
 
-### 5.2 Guard Clauses (Early Returns)
+## 6. Naming Conventions
+
+- **Descriptive**: Choose unambiguous, pronounceable, and searchable names.
+- **Meaningful Distinction**: Avoid `data1`, `data2` or `info`. Make distinctions clear.
+- **Booleans**: Always use question forms: `isLoading`, `hasPermission`, `canEdit`.
+- **Constants**: SCREAMING_SNAKE for magic numbers or global config.
+- **No Encodings**: Don't append type info (e.g., no `strName` or `iCount`).
+
+---
+
+## 7. Function Rules
+
+- **Small**: Aim for 5-15 lines. Do **one** thing.
+- **Arguments**: Prefer 0-2. Max 3. Use objects for multiple parameters.
+- **No Flags**: Split flag-based methods into independent methods.
+- **No Side Effects**: A function should not change hidden state outside its scope.
+- **Guard Clauses**: Use early returns to reduce nesting.
 
 ```typescript
 // ✅ Good - Guard clauses first
 function processUser(user: User | null) {
   if (!user) return null;
   if (!user.isActive) return { error: 'inactive' };
-  if (!user.hasPermission) return { error: 'forbidden' };
-  
-  // Happy path - no nesting
   return processValidUser(user);
 }
-
-// ❌ Bad - Deep nesting
-function processUser(user: User | null) {
-  if (user) {
-    if (user.isActive) {
-      if (user.hasPermission) {
-        return processValidUser(user);
-      }
-    }
-  }
-  return null;
-}
-```
-
-### 5.3 Pure Functions (Prefer)
-
-```typescript
-// ✅ Good - Pure function (same input → same output)
-function calculateTotal(items: Item[]): number {
-  return items.reduce((sum, item) => sum + item.price, 0);
-}
-
-// ❌ Bad - Side effects, mutations
-function calculateTotal(items: Item[]): number {
-  let total = 0;
-  items.forEach(item => {
-    total += item.price;
-    item.processed = true; // Mutation!
-  });
-  globalTotal = total; // Side effect!
-  return total;
-}
 ```
 
 ---
 
-## 6. Error Handling
+## 8. Source Code Structure
 
-### 6.1 Result Pattern (Preferred)
-
-```typescript
-// Define result types
-type Result<T, E = Error> = 
-  | { success: true; data: T }
-  | { success: false; error: E };
-
-// Usage
-async function fetchUser(id: string): Promise<Result<User>> {
-  try {
-    const user = await db.users.findUnique({ where: { id } });
-    if (!user) return { success: false, error: new Error('Not found') };
-    return { success: true, data: user };
-  } catch (error) {
-    return { success: false, error: error as Error };
-  }
-}
-
-// Consuming
-const result = await fetchUser('123');
-if (!result.success) {
-  console.error(result.error.message);
-  return;
-}
-console.log(result.data.name); // Type-safe!
-```
-
-### 6.2 Never Swallow Errors
-
-```typescript
-// ❌ Bad - Silent failure
-try {
-  await riskyOperation();
-} catch (e) {
-  // Nothing here - NEVER DO THIS
-}
-
-// ✅ Good - Handle or rethrow
-try {
-  await riskyOperation();
-} catch (error) {
-  logger.error('Operation failed', { error });
-  throw new AppError('OPERATION_FAILED', { cause: error });
-}
-```
+- **Vertical Density**: Related code should be physically close. Declare variables near usage.
+- **Caller Above Callee**: Place functions in downward direction (Caller first).
+- **Vertical Separation**: Use blank lines to separate distinct concepts.
+- **No Horizontal Alignment**: Avoid white space padding for variable alignment.
 
 ---
 
-## 7. File & Folder Structure
+## 9. Objects & Data Structures
 
-### 7.1 Feature-Based (Recommended)
-
-```
-src/
-├── features/
-│   ├── auth/
-│   │   ├── components/
-│   │   ├── hooks/
-│   │   ├── api.ts
-│   │   ├── types.ts
-│   │   └── index.ts
-│   └── products/
-│       ├── components/
-│       ├── hooks/
-│       └── ...
-├── shared/
-│   ├── components/
-│   ├── hooks/
-│   └── utils/
-└── lib/
-    ├── db.ts
-    └── api.ts
-```
-
-### 7.2 Colocation Rules
-
-| File Type | Location |
-|-----------|----------|
-| **Component-specific hook** | Same folder as component |
-| **Component-specific types** | Same file or `.types.ts` |
-| **Shared utilities** | `lib/` or `utils/` |
-| **API routes** | `app/api/` (Next.js) |
-| **Tests** | `__tests__/` or `.test.ts` suffix |
+- **Hide Internals**: Objects should hide structure (encapsulation). Data structures (DTOs) expose it.
+- **No Hybrids**: Avoid structures that are half-object and half-data.
+- **Small Classes**: Focus on one thing with few instance variables.
+- **Prefer Non-Static**: Use instance methods when behavior depends on state.
 
 ---
 
-## 8. Comments & Documentation
+## 10. Error Handling
 
-### 8.1 When to Comment
-
-| ✅ Comment | ❌ Don't Comment |
-|-----------|-----------------|
-| **Why** (business logic reason) | **What** (code already shows) |
-| Complex algorithms | Obvious operations |
-| Workarounds (with ticket/issue #) | Every line |
-| Public API (JSDoc) | Private internals |
-| Non-obvious side effects | Getters/setters |
-
-### 8.2 JSDoc for Public APIs
-
-```typescript
-/**
- * Fetches user by ID with optional relations.
- * 
- * @param id - User's unique identifier
- * @param options - Query options
- * @returns User object or null if not found
- * @throws {AuthError} If not authenticated
- * 
- * @example
- * const user = await getUser('123', { include: ['posts'] });
- */
-export async function getUser(
-  id: string, 
-  options?: UserQueryOptions
-): Promise<User | null> {
-  // ...
-}
-```
+- **Result Pattern**: Prefer `{ success: true, data: T } | { success: false, error: E }`.
+- **Never Swallow**: Treat catch blocks as mandatory handlers. No empty catches.
+- **Contextual Errors**: Wrap errors with context (e.g., `fmt.Errorf` in Go or custom Error classes in TS).
 
 ---
 
-## 9. Performance Patterns
+## 11. Comments Rules
 
-### 9.1 React Optimization
-
-```typescript
-// ✅ Server Components first (Next.js)
-// Only use 'use client' when necessary
-
-// ✅ Lazy load heavy components
-const HeavyChart = lazy(() => import('./HeavyChart'));
-
-// ✅ Memoize expensive computations
-const sortedData = useMemo(() => 
-  data.sort((a, b) => b.score - a.score), 
-  [data]
-);
-
-// ✅ Debounce user input
-const debouncedSearch = useDebouncedCallback(search, 300);
-```
-
-### 9.2 Data Fetching
-
-```typescript
-// ✅ Use TanStack Query for caching
-const { data, isLoading } = useQuery({
-  queryKey: ['users', userId],
-  queryFn: () => fetchUser(userId),
-  staleTime: 5 * 60 * 1000, // 5 minutes
-});
-
-// ✅ Parallel fetching
-const [users, products] = await Promise.all([
-  fetchUsers(),
-  fetchProducts(),
-]);
-
-// ❌ Avoid - Waterfall requests
-const users = await fetchUsers();
-const products = await fetchProducts(); // Waits for users!
-```
+- **Explain in Code**: Code should be self-explanatory. Re-write before commenting.
+- **Why, not What**: Only comment to explain *intent* or *reasoning* for non-obvious code.
+- **No Noise**: Delete commented-out code. Avoid "closing brace" markers.
+- **JSDoc**: Use only for public-facing Library/API documentation.
 
 ---
 
-## 10. Security Checklist
+## 12. Quality & Tests (FIRST)
 
-### 10.1 Input Validation
-
-```typescript
-// ✅ Always validate with Zod
-const UserSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8).max(100),
-  age: z.number().int().positive().max(150),
-});
-
-// ✅ Validate at boundaries
-export async function POST(req: Request) {
-  const body = await req.json();
-  const result = UserSchema.safeParse(body);
-  
-  if (!result.success) {
-    return Response.json({ error: result.error }, { status: 400 });
-  }
-  
-  // result.data is now typed and validated
-}
-```
-
-### 10.2 Security Rules
-
-| Rule | Implementation |
-|------|----------------|
-| **Sanitize HTML** | Use `DOMPurify` for user content |
-| **SQL Injection** | Always use parameterized queries (ORM handles) |
-| **XSS** | React auto-escapes, avoid `dangerouslySetInnerHTML` |
-| **CSRF** | Use tokens for mutations |
-| **Secrets** | Environment variables only, never commit |
-| **Headers** | Set security headers (CSP, HSTS) |
+- **Fast**: Tests must run quickly.
+- **Independent**: Tests should not depend on each other.
+- **Repeatable**: Must work in any environment, every time.
+- **Self-Validating**: Clear pass/fail result.
+- **Timely**: Written just before (TDD) or with production code.
+- **Readable**: Test code is as important as production code.
 
 ---
 
-## 11. Dependency Guidelines
+## 13. File & Folder Structure
 
-### 11.1 Before Adding a Package
-
-| Check | Action |
-|-------|--------|
-| **Bundle size** | Check bundlephobia.com |
-| **Maintenance** | Last commit < 6 months? |
-| **Downloads** | > 10k weekly? |
-| **Types** | Has TypeScript types? |
-| **Tree-shaking** | Supports ESM? |
-| **Alternatives** | Can you write it in < 50 lines? |
-
-### 11.2 Package Hygiene
-
-```bash
-# Check for updates
-npx npm-check-updates
-
-# Check bundle impact
-npx bundle-analyzer
-
-# Audit vulnerabilities
-npm audit --production
-```
+- **Feature-Based**: Colocate components, hooks, api, and types inside a feature folder.
+- **Colocation**: Keep code as close as possible to where it's used.
+- **Shared**: Use `shared/` for truly global utilities and `lib/` for third-party wrappers.
 
 ---
 
-## 12. Before Completing (MANDATORY)
+## 14. Code Smells (Red Flags)
 
-### 12.1 Self-Check
-
-| Check | Question |
-|-------|----------|
-| ✅ **Goal met?** | Did I do exactly what user asked? |
-| ✅ **Modern stack?** | Using latest recommended tech? |
-| ✅ **Type-safe?** | No `any`, proper types? |
-| ✅ **No errors?** | Lint + TypeScript pass? |
-| ✅ **Tested?** | Basic functionality verified? |
-| ✅ **Dependencies?** | All affected files updated? |
-
-### 12.2 Validation Commands
-
-```bash
-# TypeScript check
-npx tsc --noEmit
-
-# Lint check  
-npm run lint
-
-# Run tests
-npm test
-
-# Build check
-npm run build
-```
+- **Rigidity**: Hard to change; small changes cause a cascade of effects.
+- **Fragility**: Easily breaks in many places due to a single change.
+- **Immobility**: Code can't be reused because it's too coupled.
+- **Needless Complexity**: Over-engineered solutions for simple problems.
+- **Opacity**: Hidden intent or difficult-to-understand logic.
 
 ---
 
-## 13. Quick Reference
+## 15. Security & Performance Checklist
 
-### 13.1 File Header Template
+- **Security**: Validate with Zod at every boundary. No `dangerouslySetInnerHTML`. No secrets in source.
+- **React Performance**: Server Components first. Memoize heavy calcs. Debounce user input.
+- **Data Fetching**: Parallelize independent requests. Use TanStack Query for caching.
+- **Dependencies**: Audit bundle size and maintenance before adding packages.
 
-```typescript
-/**
- * @fileoverview Brief description of this file's purpose
- * @module feature/component-name
- */
+---
 
-'use client'; // Only if needed
+## 16. Clean Code by Language
+ 
+### 16.1 TypeScript
+- Use **Zod** for all I/O boundary validation.
+- Exhaustive switch checks with `never` type.
+- Prefer `interface` for shapes, `type` for unions/aliases.
+ 
+### 16.2 Python
+- Use **Pydantic v2** for schemas.
+- Mandatory type hints (PEP 484).
+- Use **Ruff** for lint/fmt and **uv** for management.
+ 
+### 16.3 Go
+- Errors are values; check them immediately.
+- Accept interfaces, return structs.
+- Concurrency: Know how goroutines stop. Use `context.Context`.
 
-import { ... } from 'react';
-// ... rest of imports
-```
+---
 
-### 13.2 Component Template
+## 17. Quick Reference
 
+### 17.1 Component Template
 ```typescript
 import type { ComponentProps } from 'react';
 
@@ -524,18 +220,11 @@ export function Button({
   children,
   ...props 
 }: ButtonProps) {
-  if (isLoading) {
-    return <LoadingButton />;
-  }
-  
-  return (
-    <button className={styles[variant]} {...props}>
-      {children}
-    </button>
-  );
+  if (isLoading) return <LoadingButton />;
+  return <button className={cn(styles[variant])} {...props}>{children}</button>;
 }
 ```
 
 ---
 
-> **Remember:** Clean code is not about following rules blindly. It's about making code **easy to read, easy to change, and hard to break**. Use modern tools that help you achieve this with less effort.
+> **Remember:** Clean code is about making code **easy to read, easy to change, and hard to break**. Use modern tools to achieve this with less effort.

@@ -26,7 +26,7 @@ def sanitize_filename(name: str) -> str:
     return name.strip('-') or "default"
 
 # ============ CONFIGURATION ============
-DATA_DIR = Path(__file__).parent.parent / "data"
+DATA_DIR = Path(__file__).parent.parent / "assets"
 MAX_RESULTS = 3
 
 CSV_CONFIG = {
