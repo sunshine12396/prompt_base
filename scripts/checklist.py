@@ -11,8 +11,8 @@ def check_structure():
     root_dir = "agent"
     
     # Try common locations relative to project root
-    if os.path.exists(".agent"):
-        root_dir = ".agent"
+    if os.path.exists(".agents"):
+        root_dir = ".agents"
     elif os.path.exists("agent"):
         root_dir = "agent"
     # If we are running FROM within the framework (e.g. inside scripts/)
@@ -73,7 +73,7 @@ def check_structure():
             for agent in registry.get("agents", []):
                 # Paths in registry might be relative to root or full paths. 
                 # We assume they are relative strings like "agent/agents/..."
-                # If we are in ".agent" mode, the registry should probably say "agents/..."
+                # If we are in ".agents" mode, the registry should probably say "agents/..."
                 # BUT, if we just blindly check existence, it should work.
                 
                 if not os.path.exists(agent["path"]):

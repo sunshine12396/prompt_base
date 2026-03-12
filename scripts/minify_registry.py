@@ -13,7 +13,7 @@ def get_frontmatter(file_path):
                 return {}
     return {}
 
-def build_registry(root_dir=".agent"):
+def build_registry(root_dir=".agents"):
     registry = {
         "agents": [],
         "skills": {
@@ -62,7 +62,7 @@ def build_registry(root_dir=".agent"):
 
 if __name__ == "__main__":
     import sys
-    target_root = ".agent"
+    target_root = ".agents"
     if len(sys.argv) > 1:
         target_root = sys.argv[1]
     build_registry(target_root)

@@ -17,7 +17,7 @@ def build_registry(framework_dir=".", force_prefix=None):
     """
     Builds the registry.min.json file.
     framework_dir: The directory containing agents/, skills/, etc.
-    force_prefix: Optional string to force as prefix (e.g., ".agent/")
+    force_prefix: Optional string to force as prefix (e.g., ".agents/")
     """
     # Current workspace root (where the script is being run from)
     workspace_root = os.getcwd()
@@ -106,5 +106,5 @@ if __name__ == "__main__":
         # When called with arguments (e.g. from sidekick), calculate path
         build_registry(target_framework)
     else:
-        # Default manual run: Assume .agent/ prefix for distribution
-        build_registry(target_framework, force_prefix=".agent/")
+        # Default manual run: Assume .agents/ prefix for distribution
+        build_registry(target_framework, force_prefix=".agents/")

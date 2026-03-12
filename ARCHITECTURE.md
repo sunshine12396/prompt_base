@@ -10,21 +10,38 @@ Prompt Base is a modular system consisting of:
 
 ---
 
-## 🏗️ Directory Structure (Sidekick Mode)
+## 🏗️ Directory Structure
 
-Prompt Base lives in a hidden subfolder (`.agent/`) within your project.
+Prompt Base can be installed **globally** (`~/.gemini/`) or as a **workspace subfolder** (`.agents/`). All documentation uses `{FRAMEWORK_ROOT}` as a placeholder that resolves based on installation type.
+
+| Install Type     | Clone Target | `{FRAMEWORK_ROOT}` resolves to |
+| ---------------- | ------------ | ------------------------------ |
+| **Global Rules** | `~/.gemini`  | `~/.gemini`                    |
+| **Workspace**    | `.agents`    | `.agents`                      |
+
+```
+{FRAMEWORK_ROOT}/
+├── core/             # Global rules and orchestration logic
+├── agents/           # 14 Specialist Agents
+├── skills/           # Categorized Skills
+├── workflows/        # Slash commands
+├── registry.min.json # Unified metadata index
+└── GEMINI.md         # Global governance
+```
+
+When using **workspace mode**, the layout within your project looks like:
 
 ```
 <project-root>/
-├── .agent/               # Framework Subfolder (Cloned here)
-│   ├── core/             # Global rules and orchestration logic
-│   ├── agents/           # 14 Specialist Agents
-│   ├── skills/           # Categorized Skills
-│   ├── workflows/        # Slash commands
-│   ├── registry.min.json # Unified metadata index
-│   └── GEMINI.md         # Global governance
+├── .agents/              # {FRAMEWORK_ROOT} (Cloned here)
+│   ├── core/
+│   ├── agents/
+│   ├── skills/
+│   ├── workflows/
+│   ├── registry.min.json
+│   └── GEMINI.md
 ├── docs/                 # Task plans (docs/PLAN-*.md)
-├── .cursorrules          # Pointer to .agent/GEMINI.md
+├── .cursorrules          # Pointer to .agents/GEMINI.md
 └── ...                   # Your project files
 ```
 
@@ -124,9 +141,9 @@ Prompt Base uses **Progressive Disclosure** to manage complexity. Skills remain 
 
 | File | Depends On | Why? |
 | ---- | ---------- | ---- |
-| `registry.min.json` | All `.md` files in `agents/` and `skills/` | Source of truth for paths and descriptions. |
-| `GEMINI.md` | `core/*.md` | Governance and rule enforcement. |
-| `ARCHITECTURE.md` | `registry.min.json` | Statistics and module overview. |
+| `{FRAMEWORK_ROOT}/registry.min.json` | All `.md` files in `{FRAMEWORK_ROOT}/agents/` and `{FRAMEWORK_ROOT}/skills/` | Source of truth for paths and descriptions. |
+| `{FRAMEWORK_ROOT}/GEMINI.md` | `{FRAMEWORK_ROOT}/core/*.md` | Governance and rule enforcement. |
+| `ARCHITECTURE.md` | `{FRAMEWORK_ROOT}/registry.min.json` | Statistics and module overview. |
 | `README.md` | `ARCHITECTURE.md` | General project overview and setup. |
 
 ---

@@ -4,14 +4,52 @@ Prompt Base is a modular AI development framework designed to run as a **subfold
 
 ## 🚀 Quick Setup
 
-1.  **Clone** this repository into your project root as `.agent`:
-    ```bash
-    git clone https://github.com/sunshine12396/prompt_base .agent
-    ```
-2.  **Enable the AI**: Run the setup command:
-    ```bash
-    make -C .agent cursor
-    ```
+### Path Resolution
+
+All paths in `GEMINI.md` and `ARCHITECTURE.md` use a `{FRAMEWORK_ROOT}` placeholder. It resolves based on how you install the framework:
+
+| Install Type     | Clone Target | `{FRAMEWORK_ROOT}` resolves to |
+| ---------------- | ------------ | ------------------------------ |
+| **Global Rules** | `~/.gemini`  | `~/.gemini`                    |
+| **Workspace**    | `.agents`    | `.agents`                      |
+
+### Global Rules (All Workspaces)
+
+Global rules live in `~/.gemini/GEMINI.md` and are applied across **all** workspaces automatically. Clone this repository into `~/.gemini`:
+
+```bash
+git clone https://github.com/sunshine12396/prompt_base ~/.gemini
+```
+
+> If `~/.gemini` already exists, copy the `GEMINI.md` file manually instead:
+> ```bash
+> rm -rf ~/prompt_base && git clone https://github.com/sunshine12396/prompt_base ~/prompt_base
+> mkdir -p ~/.gemini && cp -r ~/prompt_base/* ~/.gemini/ && rm -rf ~/prompt_base
+> ```
+
+### Workspace Rules (Per-Project)
+
+Workspace rules apply only to a single project. Clone this repository into your project root as `.agents`:
+
+```bash
+git clone https://github.com/sunshine12396/prompt_base .agents
+```
+
+### Workspace Rules (Per-Project)
+
+Workspace rules apply only to a single project. Clone this repository into your project root as `.agents`:
+
+```bash
+git clone https://github.com/sunshine12396/prompt_base .agents
+```
+
+> **Note**: Antigravity now defaults to `.agents/rules`, but still maintains backward support for `.agent/rules`.
+
+For **Cursor** users, run the setup command to install cursor rules:
+
+```bash
+make -C .agents cursor
+```
 
 ## 📖 Usage Guide
 
@@ -29,7 +67,7 @@ You don't need to manually load skills. Simply describe what you want to do, and
 This is a high-level design intelligence library for building premium interfaces. 
 
 *   **Generate Design Systems**: Ask the AI to `Generate a design system for a [Product Type] [Industry]`.
-*   **Design Tools**: The AI can search through styles, palettes, and typography pairs stored in `.agent/skills/tech/ux-ui-pro-max/assets/`.
+*   **Design Tools**: The AI can search through styles, palettes, and typography pairs stored in `{FRAMEWORK_ROOT}/skills/tech/ux-ui-pro-max/assets/`.
 *   **Persistence**: Use the `--persist` flag when generating designs to create a `MASTER.md` file in your `design-system/` folder. This ensures consistency as you build more pages.
 
 ### 3. Slash Commands (Workflows)
@@ -67,7 +105,7 @@ Slash commands are pre-defined automation scripts that orchestrate multiple Spec
 *   **Do I need to run `/init-context` every time?**  
     *   Yes, it is a recommended best practice at the start of every new conversation. This ensures the AI is immediately aligned with your specific project architecture and tech stack.
 *   **Are Core Rules always active?**  
-    *   Yes. The `.agent/core/` folder (including `rules.md` and `memory_rules.md`) contains **Tier 0: Universal Rules**. These act as the framework's "Operating System" and are **always active**, governing every turn to maintain safety, quality, and token efficiency.
+    *   Yes. The `{FRAMEWORK_ROOT}/core/` folder (including `rules.md` and `memory_rules.md`) contains **Tier 0: Universal Rules**. These act as the framework's "Operating System" and are **always active**, governing every turn to maintain safety, quality, and token efficiency.
 
 ## 🛠️ Framework Features
 

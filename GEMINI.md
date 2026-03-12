@@ -5,16 +5,21 @@
 
 ## 🛠️ CORE CONFIGURATION (Sidekick Mode)
 
-> 🔴 **MANDATORY**: This framework operates from a subfolder (e.g., `.agent/`).
-> All paths below are relative to that directory.
+> 🔴 **MANDATORY**: This framework can be installed **globally** (`~/.gemini`) or as a **workspace subfolder** (`.agents/`).
+> All paths below use `{FRAMEWORK_ROOT}` as a placeholder that resolves based on installation type:
+>
+> | Install Type     | Clone Target | `{FRAMEWORK_ROOT}` resolves to |
+> | ---------------- | ------------ | ------------------------------ |
+> | **Global Rules** | `~/.gemini`  | `~/.gemini`                    |
+> | **Workspace**    | `.agents`    | `.agents`                      |
 
-| Component          | File Path (Example)            | Purpose                    |
-| ------------------ | ------------------------------ | -------------------------- |
-| **System Prompt**  | `.agent/core/system_prompt.md` | Base persona & behaviors   |
-| **Logic & Policy** | `.agent/core/rules.md`         | Operational rules (TIER 0) |
-| **Classification** | `.agent/core/classifier.md`    | Request type mapping       |
-| **Memory Logic**   | `.agent/core/memory_rules.md`  | Context & token efficiency |
-| **Skill Registry** | `.agent/registry.min.json`     | Skill discovery & triggers |
+| Component          | File Path                                | Purpose                    |
+| ------------------ | ---------------------------------------- | -------------------------- |
+| **System Prompt**  | `{FRAMEWORK_ROOT}/core/system_prompt.md` | Base persona & behaviors   |
+| **Logic & Policy** | `{FRAMEWORK_ROOT}/core/rules.md`         | Operational rules (TIER 0) |
+| **Classification** | `{FRAMEWORK_ROOT}/core/classifier.md`    | Request type mapping       |
+| **Memory Logic**   | `{FRAMEWORK_ROOT}/core/memory_rules.md`  | Context & token efficiency |
+| **Skill Registry** | `{FRAMEWORK_ROOT}/registry.min.json`     | Skill discovery & triggers |
 
 ---
 
@@ -25,11 +30,11 @@
 ### 1. Discovery & Activation
 
 ```
-Intent Analysis → Consult {SUBFOLDER}/registry.min.json
+Intent Analysis → Consult {FRAMEWORK_ROOT}/registry.min.json
     │
     ├── Find Matching Skill (Core, Tech, Process, custom)
     ├── Discovery: Search metadata for domain match
-    └── Activation: Load SKILL.md from {SUBFOLDER}/skills/
+    └── Activation: Load SKILL.md from {FRAMEWORK_ROOT}/skills/
 ```
 
 ### 2. Implementation Lifecycle
@@ -43,7 +48,7 @@ Intent Analysis → Consult {SUBFOLDER}/registry.min.json
 
 ## 🔎 REQUEST CLASSIFIER (STEP 2)
 
-**Detailed Logic:** `core/classifier.md`
+**Detailed Logic:** `{FRAMEWORK_ROOT}/core/classifier.md`
 
 | Request Type     | Trigger Keywords                                    | Active Tiers                   | Result                       |
 | ---------------- | --------------------------------------------------- | ------------------------------ | ---------------------------- |
@@ -58,7 +63,7 @@ Intent Analysis → Consult {SUBFOLDER}/registry.min.json
 
 ## TIER 0: UNIVERSAL RULES (Always Active)
 
-**Full Policy:** `core/rules.md`
+**Full Policy:** `{FRAMEWORK_ROOT}/core/rules.md`
 
 ### 🧹 Clean Code (Summary)
 
@@ -75,7 +80,7 @@ Intent Analysis → Consult {SUBFOLDER}/registry.min.json
 
 ### 🗺️ System Map Read
 
-> 🔴 **MANDATORY**: Read `ARCHITECTURE.md` and `registry.min.json` at session start.
+> 🔴 **MANDATORY**: Read `ARCHITECTURE.md` and `{FRAMEWORK_ROOT}/registry.min.json` at session start.
 
 ---
 
