@@ -12,12 +12,11 @@ Prompt Base is a modular system consisting of:
 
 ## 🏗️ Directory Structure
 
-Prompt Base can be installed **globally** (`~/.gemini/`) or as a **workspace subfolder** (`.agents/`). All documentation uses `{FRAMEWORK_ROOT}` as a placeholder that resolves based on installation type.
+Prompt Base is installed **globally** in `~/.gemini/`. All documentation uses `{FRAMEWORK_ROOT}` as a placeholder that resolves to `~/.gemini`.
 
 | Install Type     | Clone Target | `{FRAMEWORK_ROOT}` resolves to |
 | ---------------- | ------------ | ------------------------------ |
 | **Global Rules** | `~/.gemini`  | `~/.gemini`                    |
-| **Workspace**    | `.agents`    | `.agents`                      |
 
 ```
 {FRAMEWORK_ROOT}/
@@ -27,22 +26,6 @@ Prompt Base can be installed **globally** (`~/.gemini/`) or as a **workspace sub
 ├── workflows/        # Slash commands
 ├── registry.min.json # Unified metadata index
 └── GEMINI.md         # Global governance
-```
-
-When using **workspace mode**, the layout within your project looks like:
-
-```
-<project-root>/
-├── .agents/              # {FRAMEWORK_ROOT} (Cloned here)
-│   ├── core/
-│   ├── agents/
-│   ├── skills/
-│   ├── workflows/
-│   ├── registry.min.json
-│   └── GEMINI.md
-├── docs/                 # Task plans (docs/PLAN-*.md)
-├── .cursorrules          # Pointer to .agents/GEMINI.md
-└── ...                   # Your project files
 ```
 
 ---

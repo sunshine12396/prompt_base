@@ -11,7 +11,6 @@ All paths in `GEMINI.md` and `ARCHITECTURE.md` use a `{FRAMEWORK_ROOT}` placehol
 | Install Type     | Clone Target | `{FRAMEWORK_ROOT}` resolves to |
 | ---------------- | ------------ | ------------------------------ |
 | **Global Rules** | `~/.gemini`  | `~/.gemini`                    |
-| **Workspace**    | `.agents`    | `.agents`                      |
 
 ### Global Rules (All Workspaces)
 
@@ -27,28 +26,10 @@ git clone https://github.com/sunshine12396/prompt_base ~/.gemini
 > mkdir -p ~/.gemini && cp -r ~/prompt_base/* ~/.gemini/ && rm -rf ~/prompt_base
 > ```
 
-### Workspace Rules (Per-Project)
-
-Workspace rules apply only to a single project. Clone this repository into your project root as `.agents`:
+For **Cursor** users, copy the `.cursorrules` file to your project root to benefit from these global rules:
 
 ```bash
-git clone https://github.com/sunshine12396/prompt_base .agents
-```
-
-### Workspace Rules (Per-Project)
-
-Workspace rules apply only to a single project. Clone this repository into your project root as `.agents`:
-
-```bash
-git clone https://github.com/sunshine12396/prompt_base .agents
-```
-
-> **Note**: Antigravity now defaults to `.agents/rules`, but still maintains backward support for `.agent/rules`.
-
-For **Cursor** users, run the setup command to install cursor rules:
-
-```bash
-make -C .agents cursor
+cp ~/.gemini/.cursorrules /path/to/your/project/
 ```
 
 ## 📖 Usage Guide

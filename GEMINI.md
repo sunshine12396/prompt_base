@@ -5,13 +5,12 @@
 
 ## 🛠️ CORE CONFIGURATION (Sidekick Mode)
 
-> 🔴 **MANDATORY**: This framework can be installed **globally** (`~/.gemini`) or as a **workspace subfolder** (`.agents/`).
-> All paths below use `{FRAMEWORK_ROOT}` as a placeholder that resolves based on installation type:
+> 🔴 **MANDATORY**: This framework is installed **globally** in `~/.gemini`.
+> All paths below use `{FRAMEWORK_ROOT}` which resolves to:
 >
 > | Install Type     | Clone Target | `{FRAMEWORK_ROOT}` resolves to |
 > | ---------------- | ------------ | ------------------------------ |
 > | **Global Rules** | `~/.gemini`  | `~/.gemini`                    |
-> | **Workspace**    | `.agents`    | `.agents`                      |
 
 | Component          | File Path                                | Purpose                    |
 | ------------------ | ---------------------------------------- | -------------------------- |

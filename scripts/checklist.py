@@ -11,13 +11,10 @@ def check_structure():
     root_dir = "agent"
     
     # Try common locations relative to project root
-    if os.path.exists(".agents"):
+    if os.path.exists(os.path.expanduser("~/.gemini")):
+        root_dir = os.path.expanduser("~/.gemini")
+    elif os.path.exists(".agents"):
         root_dir = ".agents"
-    elif os.path.exists("agent"):
-        root_dir = "agent"
-    # If we are running FROM within the framework (e.g. inside scripts/)
-    elif os.path.basename(os.getcwd()) == "scripts" and os.path.exists("../GEMINI.md"):
-        root_dir = ".."
     elif os.path.exists("GEMINI.md"):
         root_dir = "."
         
@@ -76,14 +73,16 @@ def check_structure():
                 # If we are in ".agents" mode, the registry should probably say "agents/..."
                 # BUT, if we just blindly check existence, it should work.
                 
-                if not os.path.exists(agent["path"]):
-                    issues.append(f"❌ Registry points to non-existent agent: {agent['path']}")
+                full_path = os.path.join(root_dir, agent["path"])
+                if not os.path.exists(full_path):
+                    issues.append(f"❌ Registry points to non-existent agent: {full_path}")
             
             # Check Skills
             for cat, skills in registry.get("skills", {}).items():
                 for skill in skills:
-                    if not os.path.exists(skill["path"]):
-                        issues.append(f"❌ Registry points to non-existent skill ({cat}): {skill['path']}")
+                    full_path = os.path.join(root_dir, skill["path"])
+                    if not os.path.exists(full_path):
+                        issues.append(f"❌ Registry points to non-existent skill ({cat}): {full_path}")
         print("✅ Registry consistency check complete.")
 
     # 4. Deep Skill Verification & Orphans
@@ -97,7 +96,7 @@ def check_structure():
             registry = json.load(f)
             for cat, skills in registry.get("skills", {}).items():
                 for skill in skills:
-                    skill_path = skill["path"]
+                    skill_path = os.path.join(root_dir, skill["path"])
                     registered_paths.add(os.path.abspath(skill_path))
                     
                     if not skill.get("description"):
@@ -128,7 +127,8 @@ def check_structure():
             with open(registry_path, "r") as f:
                 reg = json.load(f)
                 for a in reg.get("agents", []):
-                    agent_ids.add(os.path.abspath(a["path"]))
+                    agent_path = os.path.join(root_dir, a["path"])
+                    agent_ids.add(os.path.abspath(agent_path))
                     if not a.get("description"):
                          issues.append(f"⚠️ Agent missing description: {a['name']}")
 
