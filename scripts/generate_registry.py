@@ -66,10 +66,10 @@ def build_registry(framework_dir=".", force_prefix=None):
                     "path": f"{rel_prefix}agents/{f}"
                 })
 
-    # Skills
+    # Skills (located under antigravity/skills/)
     skill_categories = ["core", "tech", "process", "custom"]
     for cat in skill_categories:
-        cat_path = os.path.join(abs_framework_root, "skills", cat)
+        cat_path = os.path.join(abs_framework_root, "antigravity", "skills", cat)
         if os.path.exists(cat_path):
             for d in sorted(os.listdir(cat_path)):
                 skill_dir = os.path.join(cat_path, d)
@@ -80,7 +80,7 @@ def build_registry(framework_dir=".", force_prefix=None):
                         "id": d,
                         "name": meta.get('name', d),
                         "description": meta.get('description', ''),
-                        "path": f"{rel_prefix}skills/{cat}/{d}"
+                        "path": f"{rel_prefix}antigravity/skills/{cat}/{d}"
                     })
 
     # Write registry to the framework_dir
@@ -103,8 +103,7 @@ if __name__ == "__main__":
     
     if len(sys.argv) > 1:
         target_framework = sys.argv[1]
-        # When called with arguments (e.g. from sidekick), calculate path
         build_registry(target_framework)
     else:
-        # Default manual run: Assume .agents/ prefix for distribution
-        build_registry(target_framework, force_prefix=".agents/")
+        # Default manual run: no prefix (global mode)
+        build_registry(target_framework, force_prefix="")

@@ -3,14 +3,20 @@
 > Prompt Base AI Development Orchestrator
 > This file defines how the AI behaves in this workspace.
 
-## 🛠️ CORE CONFIGURATION (Sidekick Mode)
+## 🛠️ CORE CONFIGURATION (Global Mode)
 
 > 🔴 **MANDATORY**: This framework is installed **globally** in `~/.gemini`.
-> All paths below use `{FRAMEWORK_ROOT}` which resolves to:
->
-> | Install Type     | Clone Target | `{FRAMEWORK_ROOT}` resolves to |
-> | ---------------- | ------------ | ------------------------------ |
-> | **Global Rules** | `~/.gemini`  | `~/.gemini`                    |
+> All paths below use `{FRAMEWORK_ROOT}` which resolves to `~/.gemini`.
+
+### 3 Component Types
+
+| # | Component | Storage Path | Activation |
+|---|-----------|-------------|------------|
+| 1 | **Rules** | `~/.gemini/GEMINI.md` | Always active (all projects) |
+| 2 | **Workflows** | `~/.gemini/antigravity/global_workflows/*.md` | On-demand via `/slash` commands |
+| 3 | **Skills** | `~/.gemini/antigravity/skills/*/SKILL.md` | Auto-triggered (keyword match) |
+
+### Core Logic Files
 
 | Component          | File Path                                | Purpose                    |
 | ------------------ | ---------------------------------------- | -------------------------- |
@@ -33,7 +39,7 @@ Intent Analysis → Consult {FRAMEWORK_ROOT}/registry.min.json
     │
     ├── Find Matching Skill (Core, Tech, Process, custom)
     ├── Discovery: Search metadata for domain match
-    └── Activation: Load SKILL.md from {FRAMEWORK_ROOT}/skills/
+    └── Activation: Load SKILL.md from {FRAMEWORK_ROOT}/antigravity/skills/
 ```
 
 ### 2. Implementation Lifecycle

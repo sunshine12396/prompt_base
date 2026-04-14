@@ -8,25 +8,30 @@ def check_structure():
     issues = []
     
     # 0. Root Detection
-    root_dir = "agent"
+    root_dir = None
     
-    # Try common locations relative to project root
-    if os.path.exists(os.path.expanduser("~/.gemini")):
-        root_dir = os.path.expanduser("~/.gemini")
-    elif os.path.exists(".agents"):
-        root_dir = ".agents"
-    elif os.path.exists("GEMINI.md"):
-        root_dir = "."
-        
-    # Allow override via arg (for testing)
+    # Allow override via --root flag
     if "--root" in sys.argv:
         idx = sys.argv.index("--root")
         if idx + 1 < len(sys.argv):
             root_dir = sys.argv[idx + 1]
+    
+    # Allow positional argument (e.g., `python3 checklist.py .`)
+    if root_dir is None:
+        positional_args = [a for a in sys.argv[1:] if not a.startswith("--")]
+        if positional_args:
+            root_dir = positional_args[0]
+    
+    # Default: global install at ~/.gemini
+    if root_dir is None:
+        root_dir = os.path.expanduser("~/.gemini")
+        # Fallback: if running from the repo directory itself
+        if not os.path.exists(root_dir) and os.path.exists("GEMINI.md"):
+            root_dir = "."
 
     print(f"🔍 Checking structure using root: {root_dir}")
 
-    # 1. Critical Files
+    # 1. Critical Files (Rules + Core)
     critical_files = [
         f"{root_dir}/ARCHITECTURE.md",
         f"{root_dir}/GEMINI.md",
@@ -43,15 +48,15 @@ def check_structure():
         else:
             issues.append(f"❌ Missing critical file: {f}")
 
-    # 2. Directory Structure
+    # 2. Directory Structure — 3 component types
     dirs = [
         f"{root_dir}/core",
         f"{root_dir}/agents",
-        f"{root_dir}/skills/core",
-        f"{root_dir}/skills/tech",
-        f"{root_dir}/skills/process",
-        f"{root_dir}/skills/custom",
-        f"{root_dir}/workflows"
+        f"{root_dir}/antigravity/skills/core",
+        f"{root_dir}/antigravity/skills/tech",
+        f"{root_dir}/antigravity/skills/process",
+        f"{root_dir}/antigravity/skills/custom",
+        f"{root_dir}/antigravity/global_workflows"
     ]
     
     for d in dirs:
@@ -68,16 +73,11 @@ def check_structure():
             
             # Check Agents
             for agent in registry.get("agents", []):
-                # Paths in registry might be relative to root or full paths. 
-                # We assume they are relative strings like "agent/agents/..."
-                # If we are in ".agents" mode, the registry should probably say "agents/..."
-                # BUT, if we just blindly check existence, it should work.
-                
                 full_path = os.path.join(root_dir, agent["path"])
                 if not os.path.exists(full_path):
                     issues.append(f"❌ Registry points to non-existent agent: {full_path}")
             
-            # Check Skills
+            # Check Skills (paths now under antigravity/skills/)
             for cat, skills in registry.get("skills", {}).items():
                 for skill in skills:
                     full_path = os.path.join(root_dir, skill["path"])
@@ -87,7 +87,7 @@ def check_structure():
 
     # 4. Deep Skill Verification & Orphans
     print("🔍 Performing deep skill verification...")
-    skill_root = f"{root_dir}/skills"
+    skill_root = f"{root_dir}/antigravity/skills"
     registered_paths = set()
     
     # Collect all registered paths
@@ -119,6 +119,15 @@ def check_structure():
                         if os.path.abspath(d_path) not in registered_paths:
                              issues.append(f"⚠️ Orphaned skill found: {d_path}")
 
+    # 5. Workflow Verification
+    print("🔍 Checking workflows...")
+    workflow_dir = f"{root_dir}/antigravity/global_workflows"
+    if os.path.isdir(workflow_dir):
+        workflow_files = [f for f in os.listdir(workflow_dir) if f.endswith(".md")]
+        print(f"✅ Found {len(workflow_files)} workflow(s) in {workflow_dir}")
+    else:
+        issues.append(f"❌ Missing workflow directory: {workflow_dir}")
+
     # 6. Orphaned Agents Check
     agents_dir = f"{root_dir}/agents"
     if os.path.exists(agents_dir):
@@ -137,25 +146,6 @@ def check_structure():
                 f_path = os.path.abspath(os.path.join(agents_dir, f))
                 if f_path not in agent_ids:
                     issues.append(f"⚠️ Orphaned agent found: {os.path.join(agents_dir, f)}")
-
-    # 7. Branding Check
-    forbidden_terms = ["agent"] #  is now allowed
-    # Note:  is now allowed as a directory, but maybe we shouldn't find it in content as "branding"?
-    # For now, let's keep the check but maybe relax it or ignore if it's the root.
-    
-    files_to_check = critical_files
-    for f_path in files_to_check:
-        if os.path.exists(f_path):
-            with open(f_path, "r") as f:
-                content = f.read()
-                for term in forbidden_terms:
-                    if term == "agent":
-                        # Use regex to find 'agent/' that is NOT preceded by a dot
-                        if re.search(r'(?<!\.)agent/', content):
-                            issues.append(f"⚠️ Visible 'agent/' reference found in {f_path} (use '' or relative paths)")
-                        continue
-                    if term in content:
-                        issues.append(f"⚠️ Forbidden term '{term}' found in {f_path}")
 
     # Summary
     print("\n--- Audit Result ---")

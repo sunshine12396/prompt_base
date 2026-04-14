@@ -36,10 +36,10 @@ def build_registry(root_dir=".agents"):
                     "p": os.path.join(agent_dir, f)
                 })
 
-    # Skills
+    # Skills (located under antigravity/skills/)
     skill_categories = ["core", "tech", "process", "custom"]
     for cat in skill_categories:
-        cat_path = os.path.join(root_dir, "skills", cat)
+        cat_path = os.path.join(root_dir, "antigravity", "skills", cat)
         if os.path.exists(cat_path):
             for d in os.listdir(cat_path):
                 skill_dir = os.path.join(cat_path, d)

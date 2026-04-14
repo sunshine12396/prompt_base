@@ -1,15 +1,14 @@
-# Prompt Base - Subfolder Integration
-# Supported: Antigravity, Cursor
+# Prompt Base - Global Mode
+# Supported: Antigravity
 
-# Audit project
+# Audit project structure
 audit:
 	@python3 scripts/checklist.py .
 
-# Test
+# Run integration tests
 test:
 	@python3 scripts/test_integration.py
 
-# Install Cursor Rules
-cursor:
-	@cp .cursorrules ../.cursorrules
-	@echo "Cursor rules installed to project root."
+# Regenerate registry.min.json from all SKILL.md files
+registry:
+	@python3 scripts/generate_registry.py

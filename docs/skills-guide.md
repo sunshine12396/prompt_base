@@ -1,177 +1,374 @@
-# Prompt Base GUI Instructions
+# Developer Guide: Adding a New Skill
 
-> **Guidelines for building and using Skills with a GUI interface**
-
----
-
-## 📋 Overview
-
-While standard Large Language Models (LLMs) like Gemini are powerful general-purpose tools, they lack specific project context or your team's unique standards. Loading every rule or tool into the agent's context window leads to "context bloat," higher costs, latency, and confusion.
-
-**Prompt Base Skills** solves this through **Progressive Disclosure**. A skill is a specialized knowledge package that remains dormant until needed. This information is loaded into the agent's context only when your specific request matches the skill's description.
+> Step-by-step guide for contributors who want to add a new skill to Prompt Base.
 
 ---
 
-## 📁 Structure and Scope
+## 📋 Prerequisites
 
-Skills are directory-based packages. You can define scopes depending on your needs:
+Before you begin, make sure you have:
 
-| Scope | Path | Description |
-|-------|------|-------------|
-| **Workspace** | `agent/skills/` | Available only within a specific project |
+- The Prompt Base repository cloned locally
+- Python 3.8+ installed (for registry scripts)
+- PyYAML installed (`pip install pyyaml`) — used by the registry generator
 
-### Skill Directory Structure
+---
+
+## 🧠 Understanding Skills
+
+A **Skill** is a specialized knowledge package that the AI agent loads on-demand. Each skill is a directory containing at least a `SKILL.md` file with YAML frontmatter metadata.
+
+### How Skills Work
 
 ```
-my-skill/
-├── SKILL.md      # (Required) Metadata & instructions
-├── scripts/      # (Optional) Python or Bash scripts
-├── references/   # (Optional) Text, documentation, templates
-└── assets/       # (Optional) Images or logos
+User Request → Orchestrator reads registry.min.json
+                     │
+                     ├── Matches keywords to skill description
+                     ├── Loads the matching SKILL.md into context
+                     ├── Agent executes using skill knowledge
+                     └── Prunes skill from context when done
 ```
+
+### Skill Categories
+
+| Category | Path | Use For |
+|----------|------|---------|
+| `core` | `antigravity/skills/core/` | Framework fundamentals (coding standards, planning, brainstorming) |
+| `tech` | `antigravity/skills/tech/` | Technology-specific knowledge (React, Go, Docker, etc.) |
+| `process` | `antigravity/skills/process/` | Development workflows (testing, security, deployment, etc.) |
+| `custom` | `antigravity/skills/custom/` | Project-specific or user-created skills |
 
 ---
 
-## 🔍 Example 1: Code Review Skill
+## 🚀 Step-by-Step: Adding a New Skill
 
-This is an instruction-only skill, requiring only a `SKILL.md` file.
+### Step 1: Choose the Category
 
-### Step 1: Create Directory
+Decide which category fits your skill:
+
+| If your skill is about... | Choose |
+|---------------------------|--------|
+| A programming language, framework, or tool | `tech` |
+| A development workflow, DevOps, or quality process | `process` |
+| Core AI behavior (planning, brainstorming, etc.) | `core` |
+| Something specific to a project or user | `custom` |
+
+### Step 2: Create the Skill Directory
+
+Name your directory using `kebab-case` (lowercase with hyphens):
 
 ```bash
-mkdir -p agent/skills/process/code-review
+# Example: adding a "redis-patterns" skill to the tech category
+mkdir -p antigravity/skills/tech/redis-patterns
 ```
 
-### Step 2: Create SKILL.md
+### Step 3: Create the SKILL.md File
+
+Every skill **must** have a `SKILL.md` file. This is the only required file.
+
+Create `antigravity/skills/tech/redis-patterns/SKILL.md`:
 
 ```markdown
 ---
-name: code-review
-description: Reviews code changes for bugs, style issues, and best practices. Use when reviewing PRs or checking code quality.
+name: redis-patterns
+description: Redis caching patterns, data structures, and best practices. Use for caching, sessions, pub/sub, and rate limiting.
+allowed-tools: Read, Write, Edit
 ---
 
-# Code Review Skill
+# Redis Patterns
 
-When reviewing code, follow these steps:
+> Best practices for Redis in production applications.
 
-## Review checklist
+## 1. Caching Strategies
 
-1. **Correctness**: Does the code do what it's supposed to?
-2. **Edge cases**: Are error conditions handled?
-3. **Style**: Does it follow project conventions?
-4. **Performance**: Are there obvious inefficiencies?
+| Strategy | Use When |
+|----------|----------|
+| **Cache-Aside** | Read-heavy, data doesn't change often |
+| **Write-Through** | Data consistency is critical |
+| **Write-Behind** | Write-heavy, eventual consistency OK |
 
-## How to provide feedback
+## 2. Data Structure Selection
 
-- Be specific about what needs to change
-- Explain why, not just what
-- Suggest alternatives when possible
+| Need | Use |
+|------|-----|
+| Simple key-value | `STRING` |
+| Object with fields | `HASH` |
+| Sorted rankings | `SORTED SET` |
+| Queue/stack | `LIST` |
+| Unique items | `SET` |
+
+...your skill content continues...
 ```
 
-> **Note**: The `SKILL.md` file contains metadata (name, description) at the top, followed by instructions. The Agent will only read the metadata and load instructions when necessary.
+#### Frontmatter Fields Reference
 
-### Try It Out
+| Field | Required | Description |
+|-------|----------|-------------|
+| `name` | ✅ Yes | Skill ID — must match the directory name |
+| `description` | ✅ Yes | One-line description used for auto-matching. **This is how the AI finds your skill** — include trigger keywords! |
+| `allowed-tools` | No | Which tools the agent can use (Read, Write, Edit, Glob, Grep, Bash, Agent) |
+| `version` | No | Version number for tracking changes |
+| `priority` | No | `CRITICAL`, `HIGH`, `NORMAL`, `LOW` — affects loading order |
 
-Create `demo_bad_code.py`:
+> **⚠️ Important**: The `description` field is critical for auto-triggering. Include relevant keywords that users would naturally say. For example:
+> - ❌ Bad: `"Redis database skill"`
+> - ✅ Good: `"Redis caching patterns, data structures, and best practices. Use for caching, sessions, pub/sub, and rate limiting."`
 
-```python
-import time
+### Step 4: (Optional) Add Supporting Files
 
-def get_user_data(users, id):
-    # Find user by ID
-    for u in users:
-        if u['id'] == id:
-            return u
-    return None
+For complex skills, you can add optional directories:
 
-def process_payments(items):
-    total = 0
-    for i in items:
-        # Calculate tax
-        tax = i['price'] * 0.1
-        total = total + i['price'] + tax
-        time.sleep(0.1)  # Simulate slow network call
-    return total
-
-def run_batch():
-    users = [{'id': 1, 'name': 'Alice'}, {'id': 2, 'name': 'Bob'}]
-    items = [{'price': 10}, {'price': 20}, {'price': 100}]
-    
-    u = get_user_data(users, 3)
-    print("User found: " + u['name'])  # Will crash if None
-    
-    print("Total: " + str(process_payments(items)))
-
-if __name__ == "__main__":
-    run_batch()
+```
+redis-patterns/
+├── SKILL.md          # (Required) Metadata & instructions
+├── references/       # (Optional) Reference docs, cheat sheets
+│   └── commands.md
+├── scripts/          # (Optional) Helper scripts
+│   └── benchmark.sh
+├── assets/           # (Optional) Images, diagrams
+│   └── architecture.png
+└── templates/        # (Optional) Code templates
+    └── cache-service.ts
 ```
 
-**Prompt**: `review the @demo_bad_code.py file`
+The `SKILL.md` can reference these files — the agent will load them as needed:
 
-The Agent will automatically identify the `code-review` skill, load the information, and follow the instructions.
+```markdown
+## Resources
 
----
+| File | Description | When to Read |
+|------|-------------|--------------|
+| `references/commands.md` | Common Redis commands | Quick reference |
+| `templates/cache-service.ts` | Cache service template | Creating new cache layer |
+```
 
-## 📄 Example 2: License Header Skill
+### Step 5: Register the Skill in the Registry
 
-This skill uses a reference file in a `resources/` directory.
+Add your skill entry to `registry.min.json` in the appropriate category:
 
-### Step 1: Create Directory
+```json
+{
+    "skills": {
+        "tech": [
+            ...existing skills...,
+            {
+                "id": "redis-patterns",
+                "name": "redis-patterns",
+                "description": "Redis caching patterns, data structures, and best practices. Use for caching, sessions, pub/sub, and rate limiting.",
+                "path": "antigravity/skills/tech/redis-patterns"
+            }
+        ]
+    }
+}
+```
+
+> **Field mapping:**
+> | Registry Field | Source |
+> |----------------|--------|
+> | `id` | Directory name |
+> | `name` | `name` from SKILL.md frontmatter |
+> | `description` | `description` from SKILL.md frontmatter |
+> | `path` | Relative path: `antigravity/skills/<category>/<skill-name>` |
+
+**Alternative:** Run the registry generator script to auto-generate from all SKILL.md files:
 
 ```bash
-mkdir -p agent/skills/custom/license-header-adder/resources
+python3 scripts/generate_registry.py
 ```
 
-### Step 2: Create Template File
+### Step 6: Update ARCHITECTURE.md (if needed)
 
-**`agent/skills/custom/license-header-adder/resources/HEADER.txt`**:
+If your skill introduces a **new category** or changes the skill count significantly, update the skills table in `ARCHITECTURE.md`.
 
+### Step 7: Validate
+
+Run the audit to verify everything is wired up correctly:
+
+```bash
+# Run the full audit
+make audit
+
+# Or run directly
+python3 scripts/checklist.py .
 ```
-/*
- * Copyright (c) 2026 YOUR_COMPANY_NAME LLC.
- * All rights reserved.
- * This code is proprietary and confidential.
- */
+
+The audit checks for:
+- ✅ Skill directory exists at the path specified in registry
+- ✅ `SKILL.md` file exists in the skill directory
+- ✅ `description` field is not empty
+- ✅ No orphaned skills (directories with SKILL.md not in registry)
+
+Run the integration test:
+
+```bash
+make test
 ```
 
-### Step 3: Create SKILL.md
+---
 
-**`agent/skills/custom/license-header-adder/SKILL.md`**:
+## 📐 SKILL.md Writing Guidelines
+
+### Do's
+
+| Rule | Why |
+|------|-----|
+| **Use tables** for reference material | Fast scanning, low token cost |
+| **Use decision trees** | Helps the AI choose the right pattern |
+| **Include code examples** | Concrete patterns the AI can follow |
+| **Add anti-patterns** | Prevents the AI from making common mistakes |
+| **Keep it concise** | Every token matters — avoid verbose explanations |
+
+### Don'ts
+
+| Avoid | Why |
+|-------|-----|
+| Lengthy prose paragraphs | Wastes context window tokens |
+| Duplicate content from other skills | Increases context bloat |
+| Overly broad descriptions | Causes false-positive skill matching |
+| Missing trigger keywords in description | Skill won't be auto-discovered |
+
+### Template Structure
+
+A well-structured `SKILL.md` follows this pattern:
 
 ```markdown
 ---
-name: license-header-adder
-description: Adds the standard corporate license header to new source files.
+name: skill-name
+description: Short trigger-keyword-rich description.
+allowed-tools: Read, Write, Edit
 ---
 
-# License Header Adder
+# Skill Name
 
-This skill ensures that all new source files have the correct copyright header.
+> One-line philosophy or principle.
 
-## Instructions
+## 1. Core Principles / Decision Matrix
 
-1. **Read the Template**: Read the content of `resources/HEADER.txt`.
-2. **Apply to File**: When creating a new file, prepend this exact content.
-3. **Adapt Syntax**: 
-   - For C-style languages (Java, TS), keep the `/* */` block.
-   - For Python/Shell, convert to `#` comments.
+(Tables with key decisions the AI must make)
+
+## 2. Patterns & Best Practices
+
+(The main knowledge content)
+
+## 3. Code Examples
+
+(Concrete, copy-paste-ready code)
+
+## 4. Anti-Patterns
+
+(What NOT to do, with explanations)
+
+## 5. Decision Checklist
+
+(Quick checklist the AI can run through)
 ```
 
-### Try It Out
+---
 
-**Prompt**: `Create a new Python script named data_processor.py that prints 'Hello World'.`
+## 📂 Full Example: End-to-End
 
-The Agent will read the template, convert comments to Python style, and automatically add the header to the file.
+Here's a complete walkthrough of adding a `graphql-patterns` skill:
+
+### 1. Create directory
+
+```bash
+mkdir -p antigravity/skills/tech/graphql-patterns
+```
+
+### 2. Create SKILL.md
+
+```bash
+cat > antigravity/skills/tech/graphql-patterns/SKILL.md << 'EOF'
+---
+name: graphql-patterns
+description: GraphQL API design patterns, schema design, resolvers, and performance. Use for GraphQL, Apollo, schema, query, mutation, subscription.
+allowed-tools: Read, Write, Edit
+---
+
+# GraphQL Patterns
+
+> Schema-first thinking for type-safe APIs.
+
+## 1. Schema Design Principles
+
+| Principle | Rule |
+|-----------|------|
+| **Nullable by default** | Only mark fields `!` when guaranteed |
+| **Connections for lists** | Use Relay-style pagination |
+| **Input types** | Separate input from output types |
+| **Enums** | Use for fixed sets of values |
+
+## 2. Resolver Patterns
+
+| Pattern | Use When |
+|---------|----------|
+| **DataLoader** | N+1 query problem |
+| **Field resolver** | Computed fields |
+| **Middleware** | Auth, logging, caching |
+
+## 3. Anti-Patterns
+
+| ❌ Don't | ✅ Do |
+|----------|-------|
+| Expose DB schema directly | Design client-focused schema |
+| Deep nesting (>3 levels) | Flatten with connections |
+| Giant query types | Split into domains |
+EOF
+```
+
+### 3. Add to registry.min.json
+
+Add this entry to `"skills" > "tech"` array:
+
+```json
+{
+    "id": "graphql-patterns",
+    "name": "graphql-patterns",
+    "description": "GraphQL API design patterns, schema design, resolvers, and performance. Use for GraphQL, Apollo, schema, query, mutation, subscription.",
+    "path": "antigravity/skills/tech/graphql-patterns"
+}
+```
+
+### 4. Validate
+
+```bash
+make audit
+```
+
+Expected output:
+```
+✅ Skill directory exists
+✅ SKILL.md found
+✅ Description present
+🚀 ALL SYSTEMS NOMINAL
+```
 
 ---
 
-## 🎯 Conclusion
+## 🔧 Useful Scripts
 
-By creating Skills, you transform a general-purpose AI model into an expert for your project:
+| Script | Command | Purpose |
+|--------|---------|---------|
+| **Audit** | `make audit` | Validate all skills, agents, and registry consistency |
+| **Test** | `make test` | Run integration tests |
+| **Generate Registry** | `python3 scripts/generate_registry.py` | Auto-rebuild registry.min.json from all SKILL.md files |
 
-- ✅ Systemize best practices
-- ✅ Adhere to code review rules
-- ✅ Automatically add license headers
-- ✅ Agent automatically knows how to work with your team
+---
 
-Instead of constantly reminding the AI to "remember to add license" or "fix commit format," the Agent will now do it automatically!
+## ❓ FAQ
+
+### My skill isn't being triggered — what's wrong?
+
+Check your `description` field in SKILL.md. It must contain the **keywords** users would naturally use. The orchestrator matches user intent against skill descriptions.
+
+### Can I have sub-files in my skill?
+
+Yes. Use a content map table in your SKILL.md to tell the agent which file to read and when. See the `app-builder` skill for an example of a multi-file skill.
+
+### How many skills can I add?
+
+There's no hard limit. The Librarian Protocol uses lazy loading — only matched skills are loaded into context.
+
+### Do I need to update GEMINI.md when adding a skill?
+
+No. Skills are discovered through `registry.min.json`. You only need to update `GEMINI.md` if you're changing rules or adding new slash commands.

@@ -2,30 +2,85 @@
 
 ## 📋 Overview
 
-Prompt Base is a modular system consisting of:
+Prompt Base is a **global-only** modular framework installed in `~/.gemini`. It consists of **3 component types** and supporting infrastructure:
 
-- **14 Specialist Agents** - Role-based AI personas
-- **40 Skills** - Categorized knowledge modules
-- **14 Workflows** - Slash command procedures
+| Component | Count | Purpose |
+|-----------|-------|---------|
+| **Rules** | 1 file | Persistent behavior (`GEMINI.md`) |
+| **Workflows** | 14 | On-demand slash command procedures |
+| **Skills** | 40+ | Auto-triggered knowledge modules |
+| **Agents** | 14 | Specialist AI personas |
 
 ---
 
-## 🏗️ Directory Structure
+## 🏗️ 3 Component Types
 
-Prompt Base is installed **globally** in `~/.gemini/`. All documentation uses `{FRAMEWORK_ROOT}` as a placeholder that resolves to `~/.gemini`.
+### 1. Rules (Always Active)
 
-| Install Type     | Clone Target | `{FRAMEWORK_ROOT}` resolves to |
-| ---------------- | ------------ | ------------------------------ |
-| **Global Rules** | `~/.gemini`  | `~/.gemini`                    |
+- **File**: `~/.gemini/GEMINI.md`
+- **Purpose**: Define how the agent always behaves — coding style, safety constraints, architecture patterns.
+- **Scope**: Applied to ALL projects automatically.
+
+### 2. Workflows (On-Demand Modes)
+
+- **Path**: `~/.gemini/antigravity/global_workflows/*.md`
+- **Purpose**: Define how the agent behaves temporarily, triggered via slash commands.
+- **Activation**: `/plan`, `/review`, `/create`, `/debug`, etc.
+- **Scope**: Global — available in all workspaces.
+
+### 3. Skills (Auto-Triggered)
+
+- **Path**: `~/.gemini/antigravity/skills/*/SKILL.md`
+- **Purpose**: Specialized knowledge modules automatically invoked when relevant.
+- **Activation**: Keyword matching via `registry.min.json`.
+- **Scope**: Global — available in all workspaces.
+
+---
+
+## 📁 Directory Structure
+
+All documentation uses `{FRAMEWORK_ROOT}` as a placeholder that resolves to `~/.gemini`.
 
 ```
-{FRAMEWORK_ROOT}/
-├── core/             # Global rules and orchestration logic
-├── agents/           # 14 Specialist Agents
-├── skills/           # Categorized Skills
-├── workflows/        # Slash commands
-├── registry.min.json # Unified metadata index
-└── GEMINI.md         # Global governance
+{FRAMEWORK_ROOT}/                          (~/.gemini)
+├── GEMINI.md                              ← Rules (always active, all projects)
+├── ARCHITECTURE.md                        ← This file
+├── registry.min.json                      ← Unified metadata index
+│
+├── core/                                  ← Core logic
+│   ├── system_prompt.md                   ← Base persona & behaviors
+│   ├── rules.md                           ← Operational rules (TIER 0)
+│   ├── classifier.md                      ← Request type mapping
+│   └── memory_rules.md                    ← Context & token efficiency
+│
+├── agents/                                ← 14 Specialist Agent definitions
+│   ├── orchestrator.md
+│   ├── frontend-specialist.md
+│   ├── backend-specialist.md
+│   └── ...
+│
+└── antigravity/                           ← Antigravity platform integration
+    ├── global_workflows/                  ← Workflows (slash commands)
+    │   ├── brainstorm.md
+    │   ├── plan.md
+    │   ├── create.md
+    │   ├── debug.md
+    │   ├── deploy.md
+    │   ├── enhance.md
+    │   ├── init-context.md
+    │   ├── orchestrate.md
+    │   ├── restructure.md
+    │   ├── review.md
+    │   ├── status.md
+    │   ├── test.md
+    │   ├── deep-solve.md
+    │   └── ux-ui-pro.md
+    │
+    └── skills/                            ← Skills (auto-trigger)
+        ├── core/                          ← Core skills (8)
+        ├── tech/                          ← Technology skills (16)
+        ├── process/                       ← Process skills (16+)
+        └── custom/                        ← Custom/user skills
 ```
 
 ---
@@ -53,7 +108,7 @@ Prompt Base uses **Progressive Disclosure** to manage complexity. Skills remain 
 
 ---
 
-## 🧠 Skills (40)
+## 🧠 Skills (40+)
 
 ### Core (8)
 
@@ -77,7 +132,7 @@ Prompt Base uses **Progressive Disclosure** to manage complexity. Skills remain 
 | **Mobile**  | `mobile-design`                                                                     |
 | **Other**   | `database-design`, `docker-expert`, `game-development`, `ux-ui-pro-max`, `mcp-builder` |
 
-### Process (16)
+### Process (16+)
 
 | Category    | Skills                                                                              |
 | ----------- | ----------------------------------------------------------------------------------- |
@@ -115,23 +170,23 @@ Prompt Base uses **Progressive Disclosure** to manage complexity. Skills remain 
 | Metric              | Value |
 | ------------------- | ----- |
 | **Total Agents**    | 14    |
-| **Total Skills**    | 40    |
+| **Total Skills**    | 40+   |
 | **Total Workflows** | 14    |
 
 ---
 
-## � Critical File Dependencies
+## 🔗 Critical File Dependencies
 
 | File | Depends On | Why? |
 | ---- | ---------- | ---- |
-| `{FRAMEWORK_ROOT}/registry.min.json` | All `.md` files in `{FRAMEWORK_ROOT}/agents/` and `{FRAMEWORK_ROOT}/skills/` | Source of truth for paths and descriptions. |
+| `{FRAMEWORK_ROOT}/registry.min.json` | All `.md` files in `{FRAMEWORK_ROOT}/agents/` and `{FRAMEWORK_ROOT}/antigravity/skills/` | Source of truth for paths and descriptions. |
 | `{FRAMEWORK_ROOT}/GEMINI.md` | `{FRAMEWORK_ROOT}/core/*.md` | Governance and rule enforcement. |
 | `ARCHITECTURE.md` | `{FRAMEWORK_ROOT}/registry.min.json` | Statistics and module overview. |
 | `README.md` | `ARCHITECTURE.md` | General project overview and setup. |
 
 ---
 
-## �🔗 Quick Reference
+## 🔗 Quick Reference
 
 | Need        | Agent                 | Category       |
 | ----------- | --------------------- | -------------- |
