@@ -146,5 +146,6 @@ A high-level design intelligence library for building premium interfaces:
 ## 🔗 Documentation
 
 - [Architecture](ARCHITECTURE.md) - Deep dive into how the system works.
+- [Component Guide](docs/components.md) - Understanding Rules, Workflows, and the Skill loading protocol.
 - [Governance (GEMINI.md)](GEMINI.md) - Operational rules and request classification logic.
 - [Skills Guide](docs/skills-guide.md) - Detailed guide on building and customizing your own skills.
