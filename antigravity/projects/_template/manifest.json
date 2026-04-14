@@ -1,0 +1,7 @@
+{
+  "project": "template",
+  "workspace": "",
+  "lastScanned": "",
+  "checksums": {},
+  "autoRefreshTriggers": ["package.json", "ARCHITECTURE.md"]
+}
