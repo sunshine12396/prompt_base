@@ -66,7 +66,7 @@ def test_integration():
     
     # 5. Verify Agents
     print("\n--- 5. Agents ---")
-    agents_dir = os.path.join(project_root, "agents")
+    agents_dir = os.path.join(project_root, "antigravity", "agents")
     if os.path.isdir(agents_dir):
         agents = [f for f in os.listdir(agents_dir) if f.endswith(".md")]
         print(f"✅ Agents directory exists with {len(agents)} agent(s)")

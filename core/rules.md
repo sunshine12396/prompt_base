@@ -24,8 +24,8 @@
 
 **Path Awareness:**
 
-- Agents: `[ROOT]/agents/`
-- Skills: `[ROOT]/skills/{core|tech|process|custom}/`
+- Agents: `[ROOT]/antigravity/agents/`
+- Skills: `[ROOT]/antigravity/skills/{core|tech|process|custom}/`
 - Core Config: `[ROOT]/core/`
 - Registry: `[ROOT]/registry.min.json`
 

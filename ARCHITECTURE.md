@@ -53,13 +53,14 @@ All documentation uses `{FRAMEWORK_ROOT}` as a placeholder that resolves to `~/.
 │   ├── classifier.md                      ← Request type mapping
 │   └── memory_rules.md                    ← Context & token efficiency
 │
-├── agents/                                ← 14 Specialist Agent definitions
-│   ├── orchestrator.md
-│   ├── frontend-specialist.md
-│   ├── backend-specialist.md
-│   └── ...
+├── antigravity/                           ← Antigravity platform integration
+│   ├── agents/                            ← 14 Specialist Agent definitions
+│   │   ├── orchestrator.md
+│   │   ├── frontend-specialist.md
+│   │   ├── backend-specialist.md
+│   │   └── ...
 │
-└── antigravity/                           ← Antigravity platform integration
+│
     ├── global_workflows/                  ← Workflows (slash commands)
     │   ├── brainstorm.md
     │   ├── plan.md
@@ -179,7 +180,7 @@ Prompt Base uses **Progressive Disclosure** to manage complexity. Skills remain 
 
 | File | Depends On | Why? |
 | ---- | ---------- | ---- |
-| `{FRAMEWORK_ROOT}/registry.min.json` | All `.md` files in `{FRAMEWORK_ROOT}/agents/` and `{FRAMEWORK_ROOT}/antigravity/skills/` | Source of truth for paths and descriptions. |
+| `{FRAMEWORK_ROOT}/registry.min.json` | All `.md` files in `{FRAMEWORK_ROOT}/antigravity/agents/` and `{FRAMEWORK_ROOT}/antigravity/skills/` | Source of truth for paths and descriptions. |
 | `{FRAMEWORK_ROOT}/GEMINI.md` | `{FRAMEWORK_ROOT}/core/*.md` | Governance and rule enforcement. |
 | `ARCHITECTURE.md` | `{FRAMEWORK_ROOT}/registry.min.json` | Statistics and module overview. |
 | `README.md` | `ARCHITECTURE.md` | General project overview and setup. |

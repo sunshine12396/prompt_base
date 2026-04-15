@@ -51,7 +51,7 @@ def check_structure():
     # 2. Directory Structure — 3 component types
     dirs = [
         f"{root_dir}/core",
-        f"{root_dir}/agents",
+        f"{root_dir}/antigravity/agents",
         f"{root_dir}/antigravity/skills/core",
         f"{root_dir}/antigravity/skills/tech",
         f"{root_dir}/antigravity/skills/process",
@@ -129,7 +129,7 @@ def check_structure():
         issues.append(f"❌ Missing workflow directory: {workflow_dir}")
 
     # 6. Orphaned Agents Check
-    agents_dir = f"{root_dir}/agents"
+    agents_dir = f"{root_dir}/antigravity/agents"
     if os.path.exists(agents_dir):
         agent_ids = set()
         if os.path.exists(registry_path):

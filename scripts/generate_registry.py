@@ -54,7 +54,7 @@ def build_registry(framework_dir=".", force_prefix=None):
     }
 
     # Agents
-    agent_dir = os.path.join(abs_framework_root, "agents")
+    agent_dir = os.path.join(abs_framework_root, "antigravity", "agents")
     if os.path.exists(agent_dir):
         for f in sorted(os.listdir(agent_dir)):
             if f.endswith('.md'):
@@ -63,7 +63,7 @@ def build_registry(framework_dir=".", force_prefix=None):
                     "id": f.replace('.md', ''),
                     "name": meta.get('name', f),
                     "description": meta.get('description', ''),
-                    "path": f"{rel_prefix}agents/{f}"
+                    "path": f"{rel_prefix}antigravity/agents/{f}"
                 })
 
     # Skills (located under antigravity/skills/)
