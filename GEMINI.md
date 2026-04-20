@@ -20,11 +20,11 @@
 
 | Component          | File Path                                | Purpose                    |
 | ------------------ | ---------------------------------------- | -------------------------- |
-| **System Prompt**  | `{FRAMEWORK_ROOT}/core/system_prompt.md` | Base persona & behaviors   |
-| **Logic & Policy** | `{FRAMEWORK_ROOT}/core/rules.md`         | Operational rules (TIER 0) |
-| **Classification** | `{FRAMEWORK_ROOT}/core/classifier.md`    | Request type mapping       |
-| **Memory Logic**   | `{FRAMEWORK_ROOT}/core/memory_rules.md`  | Context & token efficiency |
-| **Skill Registry** | `{FRAMEWORK_ROOT}/registry.min.json`     | Skill discovery & triggers |
+| **System Prompt**  | `./core/system_prompt.md`                | Base persona & behaviors   |
+| **Logic & Policy** | `./core/rules.md`                       | Operational rules (TIER 0) |
+| **Classification** | `./core/classifier.md`                   | Request type mapping       |
+| **Memory Logic**   | `./core/memory_rules.md`                 | Context & token efficiency |
+| **Skill Registry** | `./registry.min.json`                    | Skill discovery & triggers |
 
 ---
 
@@ -82,6 +82,13 @@ Intent Analysis → Consult {FRAMEWORK_ROOT}/registry.min.json
 
 1. Check `ARCHITECTURE.md` → File Dependencies
 2. Update ALL affected files together
+
+### 🧘 Behavioral Excellence
+
+- **Intellectual Integrity**: Think before coding; state assumptions; surface tradeoffs.
+- **Simplicity First**: Minimum code; no speculative features.
+- **Surgicality**: Touch only what's needed; fix adjacent bugs immediately + doc.
+- **Goal-Driven**: Define success criteria/tests before implementation.
 
 ### 🗺️ System Map Read
 
