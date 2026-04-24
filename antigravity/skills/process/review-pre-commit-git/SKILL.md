@@ -1,6 +1,6 @@
 ---
 name: review-pre-commit-git
-description: Standardized pre-commit code review process using V4 Prompt Template. Triggers on "pre-commit", "staged changes", "git review".
+description: "Use before committing to perform a standardized code review on staged changes."
 references: [template.md]
 ---
 

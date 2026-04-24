@@ -1,6 +1,6 @@
 ---
 name: context-management
-description: Principles for context window optimization and MVC (Minimal Viable Context).
+description: "Use when optimizing the context window or implementing Minimal Viable Context (MVC) to prevent token bloat."
 ---
 # Context Management Protocol
 1. Prioritize current task files.

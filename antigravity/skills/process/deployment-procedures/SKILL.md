@@ -1,6 +1,6 @@
 ---
 name: deployment-procedures
-description: Production deployment principles and decision-making. Safe deployment workflows, rollback strategies, and verification. Teaches thinking, not scripts.
+description: "Use when planning or executing production deployments, creating safe deployment workflows, or managing rollback strategies."
 allowed-tools: Read, Glob, Grep, Bash
 ---
 

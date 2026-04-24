@@ -1,6 +1,6 @@
 ---
 name: database-design
-description: Database design principles and decision-making. Schema design, indexing strategy, ORM selection, serverless databases.
+description: "Use when designing database schemas, creating indexing strategies, selecting an ORM, or modeling relationships."
 allowed-tools: Read, Write, Edit, Glob, Grep
 ---
 

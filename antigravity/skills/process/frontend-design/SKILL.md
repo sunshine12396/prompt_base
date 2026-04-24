@@ -1,6 +1,6 @@
 ---
 name: frontend-design
-description: Design thinking and decision-making for web UI. Use when designing components, layouts, color schemes, typography, or creating aesthetic interfaces. Teaches principles, not fixed values.
+description: "Use when designing frontend components, planning layouts, defining color schemes, or establishing typography."
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 references: [ux-psychology.md, color-system.md, typography-system.md, visual-effects.md, animation-guide.md, motion-graphics.md, decision-trees.md]
 ---

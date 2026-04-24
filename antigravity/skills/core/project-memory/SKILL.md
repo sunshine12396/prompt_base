@@ -1,6 +1,6 @@
 ---
 name: project-memory
-description: Load and manage persistent project-level context from global memory. Acts as a local RAG cache for projects.
+description: "Use when loading or managing persistent project-level context from global memory."
 triggers:
   - session-start
   - "project"

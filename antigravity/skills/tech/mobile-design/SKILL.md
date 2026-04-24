@@ -1,6 +1,6 @@
 ---
 name: mobile-design
-description: Mobile-first design thinking and decision-making for iOS and Android apps. Touch interaction, performance patterns, platform conventions. Teaches principles, not fixed values. Use when building React Native, Flutter, or native mobile apps.
+description: "Use when designing or building React Native, Flutter, or native mobile apps, focusing on touch interactions and platform conventions."
 allowed-tools: Read, Glob, Grep, Bash
 references: [mobile-design-thinking.md, touch-psychology.md, performance-universal.md, performance-react-native.md, performance-flutter.md, mobile-backend.md, mobile-testing.md, mobile-debugging.md, mobile-navigation.md, mobile-typography.md, mobile-color-system.md, decision-trees.md, ios-design-system.md, ios-patterns-and-components.md, android-material-3.md, android-patterns-and-components.md]
 ---

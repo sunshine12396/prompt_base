@@ -1,6 +1,6 @@
 ---
 name: webapp-testing
-description: Web application testing principles. E2E, Playwright, deep audit strategies.
+description: "Use when writing or running web application E2E tests, Playwright scripts, or performing deep audits."
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 

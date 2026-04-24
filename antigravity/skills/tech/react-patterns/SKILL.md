@@ -1,6 +1,6 @@
 ---
 name: react-patterns
-description: Modern React patterns and principles. Hooks, composition, performance, TypeScript best practices.
+description: "Use when building React applications, working with Hooks, composing components, or optimizing React performance."
 allowed-tools: Read, Write, Edit, Glob, Grep
 ---
 

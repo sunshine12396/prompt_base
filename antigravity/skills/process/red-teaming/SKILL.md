@@ -1,6 +1,6 @@
 ---
 name: red-teaming
-description: Offensive security methodology, PTES phases, and ethical hacking protocols.
+description: "Use when planning offensive security methodology, PTES phases, or ethical hacking protocols."
 ---
 
 # Red Teaming & Penetration Testing

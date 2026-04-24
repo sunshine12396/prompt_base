@@ -1,6 +1,6 @@
 ---
 name: docker-expert
-description: Docker expert. Multi-stage builds, image optimization, container security, and Compose orchestration.
+description: "Use when configuring containerization, writing Dockerfiles, optimizing images, or orchestrating via Compose."
 category: devops
 displayName: Docker Expert
 color: blue

@@ -1,118 +1,114 @@
 ---
 name: brainstorming
-description: Socratic questioning protocol + user communication. MANDATORY for complex requests, new features, or unclear requirements. Includes progress reporting and error handling.
+description: "Use before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation."
 allowed-tools: Read, Glob, Grep
 ---
 
-# Brainstorming & Communication Protocol
+# Brainstorming Ideas Into Designs
 
-> **MANDATORY:** Use for complex/vague requests, new features, updates.
+Help turn ideas into fully formed designs and specs through natural collaborative dialogue.
 
----
+Start by understanding the current project context, then ask questions one at a time to refine the idea. Once you understand what you're building, present the design and get user approval.
 
-## 🛑 SOCRATIC GATE (ENFORCEMENT)
+<HARD-GATE>
+Do NOT invoke any implementation skill, write any code, scaffold any project, or take any implementation action until you have presented a design and the user has approved it. This applies to EVERY project regardless of perceived simplicity.
+</HARD-GATE>
 
-### When to Trigger
+## Anti-Pattern: "This Is Too Simple To Need A Design"
 
-| Pattern | Action |
-|---------|--------|
-| "Build/Create/Make [thing]" without details | 🛑 ASK 3 questions |
-| Complex feature or architecture | 🛑 Clarify before implementing |
-| Update/change request | 🛑 Confirm scope |
-| Vague requirements | 🛑 Ask purpose, users, constraints |
+Every project goes through this process. A todo list, a single-function utility, a config change — all of them. "Simple" projects are where unexamined assumptions cause the most wasted work. The design can be short (a few sentences for truly simple projects), but you MUST present it and get approval.
 
-### 🚫 MANDATORY: 3 Questions Before Implementation
+## Checklist
 
-1. **STOP** - Do NOT start coding
-2. **ASK** - Minimum 3 questions:
-   - 🎯 Purpose: What problem are you solving?
-   - 👥 Users: Who will use this?
-   - 📦 Scope: Must-have vs nice-to-have?
-3. **WAIT** - Get response before proceeding
+You MUST complete these items in order:
 
----
+1. **Explore project context** — check files, docs, recent commits
+2. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria
+3. **Propose 2-3 approaches** — with trade-offs and your recommendation
+4. **Present design** — in sections scaled to complexity, get user approval after each section
+5. **Write design doc** — save to `docs/PLAN-<topic>.md` and commit
+6. **Spec self-review** — check for placeholders, contradictions, ambiguity, scope
+7. **User reviews written spec** — ask user to review before proceeding
+8. **Transition to implementation** — invoke plan-writing skill
 
-## 🧠 Dynamic Question Generation
+## The Process
 
-**⛔ NEVER use static templates.** Read `dynamic-questioning.md` for principles.
+**Understanding the idea:**
 
-### Core Principles
+- Check out the current project state first (files, docs, recent commits)
+- Before asking detailed questions, assess scope: if the request describes multiple independent subsystems, flag this immediately
+- If too large for a single spec, help the user decompose into sub-projects
+- Ask questions **one at a time** to refine the idea
+- Prefer multiple choice questions when possible
+- Only one question per message
+- Focus on understanding: purpose, constraints, success criteria
 
-| Principle | Meaning |
-|-----------|---------|
-| **Questions Reveal Consequences** | Each question connects to an architectural decision |
-| **Context Before Content** | Understand greenfield/feature/refactor/debug context first |
-| **Minimum Viable Questions** | Each question must eliminate implementation paths |
-| **Generate Data, Not Assumptions** | Don't guess—ask with trade-offs |
+**Exploring approaches:**
 
-### Question Generation Process
+- Propose 2-3 different approaches with trade-offs
+- Present options conversationally with your recommendation and reasoning
+- Lead with your recommended option and explain why
 
-```
-1. Parse request → Extract domain, features, scale indicators
-2. Identify decision points → Blocking vs. deferable
-3. Generate questions → Priority: P0 (blocking) > P1 (high-leverage) > P2 (nice-to-have)
-4. Format with trade-offs → What, Why, Options, Default
-```
+**Presenting the design:**
 
-### Question Format (MANDATORY)
+- Scale each section to its complexity: a few sentences if straightforward, up to 200-300 words if nuanced
+- Ask after each section whether it looks right so far
+- Cover: architecture, components, data flow, error handling, testing
+- Be ready to go back and clarify if something doesn't make sense
 
-```markdown
-### [PRIORITY] **[DECISION POINT]**
+**Design for isolation and clarity:**
 
-**Question:** [Clear question]
+- Break the system into smaller units with one clear purpose each
+- Well-defined interfaces between units
+- Each unit testable independently
+- Smaller, well-bounded units are easier to work with — you reason better about code you can hold in context
 
-**Why This Matters:**
-- [Architectural consequence]
-- [Affects: cost/complexity/timeline/scale]
+**Working in existing codebases:**
 
-**Options:**
-| Option | Pros | Cons | Best For |
-|--------|------|------|----------|
-| A | [+] | [-] | [Use case] |
+- Explore the current structure before proposing changes. Follow existing patterns.
+- Where existing code has problems that affect the work, include targeted improvements
+- Don't propose unrelated refactoring. Stay focused on what serves the current goal.
 
-**If Not Specified:** [Default + rationale]
-```
+## After the Design
 
-**For detailed domain-specific question banks and algorithms**, see: `dynamic-questioning.md`
+**Spec Self-Review:**
+After writing the spec document, review with fresh eyes:
 
----
+1. **Placeholder scan:** Any "TBD", "TODO", incomplete sections? Fix them.
+2. **Internal consistency:** Do any sections contradict each other?
+3. **Scope check:** Is this focused enough for a single implementation plan?
+4. **Ambiguity check:** Could any requirement be interpreted two different ways? Pick one.
 
-## Progress Reporting (PRINCIPLE-BASED)
+**User Review Gate:**
+After review passes, ask the user to review the written spec:
 
-**PRINCIPLE:** Transparency builds trust. Status must be visible and actionable.
+> "Spec written to `<path>`. Please review and let me know if you want changes before we write the implementation plan."
 
-### Status Board Format
+Wait for user response. Only proceed once user approves.
 
-| Agent | Status | Current Task | Progress |
-|-------|--------|--------------|----------|
-| [Agent Name] | ✅🔄⏳❌⚠️ | [Task description] | [% or count] |
+**Implementation:**
+- Invoke the plan-writing skill to create a detailed implementation plan
+- Do NOT invoke any other skill. plan-writing is the next step.
 
-### Status Icons
+## Key Principles
 
-| Icon | Meaning | Usage |
-|------|---------|-------|
-| ✅ | Completed | Task finished successfully |
-| 🔄 | Running | Currently executing |
-| ⏳ | Waiting | Blocked, waiting for dependency |
-| ❌ | Error | Failed, needs attention |
-| ⚠️ | Warning | Potential issue, not blocking |
+- **One question at a time** — Don't overwhelm with multiple questions
+- **Multiple choice preferred** — Easier to answer than open-ended
+- **YAGNI ruthlessly** — Remove unnecessary features from all designs
+- **Explore alternatives** — Always propose 2-3 approaches before settling
+- **Incremental validation** — Present design, get approval before moving on
 
----
+## Red Flags
 
-## Error Handling (PRINCIPLE-BASED)
+- Jumping to code without presenting a design
+- Asking 5 questions at once
+- Skipping the spec self-review
+- Proceeding without user approval of written spec
+- "This is too simple to need a design"
+- Not exploring the existing codebase first
+- Proposing only one approach without alternatives
 
-**PRINCIPLE:** Errors are opportunities for clear communication.
-
-### Error Response Pattern
-
-```
-1. Acknowledge the error
-2. Explain what happened (user-friendly)
-3. Offer specific solutions with trade-offs
-4. Ask user to choose or provide alternative
-```
-
-### Error Categories
+## Error Handling
 
 | Category | Response Strategy |
 |----------|-------------------|
@@ -121,13 +117,7 @@ allowed-tools: Read, Glob, Grep
 | **Build Failure** | Show specific error + suggested fix |
 | **Unclear Error** | Ask for specifics: screenshot, console output |
 
----
-
-## Completion Message (PRINCIPLE-BASED)
-
-**PRINCIPLE:** Celebrate success, guide next steps.
-
-### Completion Structure
+## Completion Structure
 
 ```
 1. Success confirmation (celebrate briefly)
@@ -135,29 +125,3 @@ allowed-tools: Read, Glob, Grep
 3. How to verify/test (actionable)
 4. Next steps suggestion (proactive)
 ```
-
----
-
-## Communication Principles
-
-| Principle | Implementation |
-|-----------|----------------|
-| **Concise** | No unnecessary details, get to point |
-| **Visual** | Use emojis (✅🔄⏳❌) for quick scanning |
-| **Specific** | "~2 minutes" not "wait a bit" |
-| **Alternatives** | Offer multiple paths when stuck |
-| **Proactive** | Suggest next step after completion |
-
----
-
-## Anti-Patterns (AVOID)
-
-| Anti-Pattern | Why |
-|--------------|-----|
-| Jumping to solutions before understanding | Wastes time on wrong problem |
-| Assuming requirements without asking | Creates wrong output |
-| Over-engineering first version | Delays value delivery |
-| Ignoring constraints | Creates unusable solutions |
-| "I think" phrases | Uncertainty → Ask instead |
-
----

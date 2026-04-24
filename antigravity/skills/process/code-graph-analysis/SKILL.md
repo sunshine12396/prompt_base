@@ -1,6 +1,6 @@
 ---
 name: code-graph-analysis
-description: "Techniques and tools for converting code into dependency graphs (code -> graph) to improve AI agent understanding of architecture and execution flow. Use when needing to understand complex systems, dependency chains, or module interactions."
+description: "Use when needing to understand complex systems, dependency chains, or module interactions by converting code to dependency graphs."
 allowed-tools: Read, Write, Edit, Bash
 ---
 

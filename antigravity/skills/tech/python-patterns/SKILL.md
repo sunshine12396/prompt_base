@@ -1,6 +1,6 @@
 ---
 name: python-patterns
-description: Python development principles and decision-making for 2025. Framework selection, async patterns, and project quality.
+description: "Use when writing Python code, selecting Python frameworks, or implementing async patterns."
 allowed-tools: Read, Write, Edit, Glob, Grep
 references: [frameworks.md, async-and-types.md, structure-and-quality.md]
 ---

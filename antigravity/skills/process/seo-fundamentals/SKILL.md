@@ -1,6 +1,6 @@
 ---
 name: seo-fundamentals
-description: SEO fundamentals, E-E-A-T, Core Web Vitals, and Google algorithm principles.
+description: "Use when auditing or improving SEO, E-E-A-T factors, Core Web Vitals, or Google algorithm compliance."
 allowed-tools: Read, Glob, Grep
 ---
 

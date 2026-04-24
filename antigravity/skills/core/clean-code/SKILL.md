@@ -1,6 +1,6 @@
 ---
 name: clean-code
-description: Pragmatic coding standards - concise, direct, no over-engineering, modern tech stack
+description: "Use when writing or refactoring any code to ensure it meets pragmatic coding standards for conciseness, directness, and modern practices."
 allowed-tools: Read, Write, Edit
 version: 3.1
 priority: CRITICAL

@@ -1,6 +1,6 @@
 ---
 name: nestjs-expert
-description: Nest.js framework expert specializing in module architecture, dependency injection, testing with Jest/Supertest, TypeORM/Mongoose integration, and Passport.js authentication. Use PROACTIVELY for any Nest.js application issues including architecture decisions or debugging complex DI problems.
+description: "Use when building or debugging Nest.js applications, working with its module architecture, DI, or Passport.js authentication."
 category: framework
 displayName: Nest.js Framework Expert
 color: red

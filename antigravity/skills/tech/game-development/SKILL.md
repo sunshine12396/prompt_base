@@ -1,6 +1,6 @@
 ---
 name: game-development
-description: Game development best practices, engine selection, and core patterns.
+description: "Use when building games, selecting game engines, or implementing core game loop patterns."
 ---
 
 # Game Development Core Skill

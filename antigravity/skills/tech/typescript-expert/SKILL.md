@@ -1,6 +1,6 @@
 ---
 name: typescript-expert
-description: TypeScript/JavaScript expert. Type-level programming, performance, monorepos, and modern tooling (Biome/ESLint/Vitest).
+description: "Use when writing TypeScript code, implementing complex types, configuring monorepos, or setting up TS tooling."
 category: framework
 displayName: TypeScript
 color: blue

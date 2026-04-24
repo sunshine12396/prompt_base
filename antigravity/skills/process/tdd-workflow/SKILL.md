@@ -1,149 +1,224 @@
 ---
 name: tdd-workflow
-description: Test-Driven Development workflow principles. RED-GREEN-REFACTOR cycle.
+description: "Use when implementing any feature or bugfix, before writing implementation code."
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 
-# TDD Workflow
+# Test-Driven Development (TDD)
 
-> Write tests first, code second.
+## Overview
 
----
+Write the test first. Watch it fail. Write minimal code to pass.
 
-## 1. The TDD Cycle
+**Core principle:** If you didn't watch the test fail, you don't know if it tests the right thing.
+
+**Violating the letter of the rules is violating the spirit of the rules.**
+
+## The Iron Law
 
 ```
-🔴 RED → Write failing test
-    ↓
-🟢 GREEN → Write minimal code to pass
-    ↓
-🔵 REFACTOR → Improve code quality
-    ↓
-   Repeat...
+NO PRODUCTION CODE WITHOUT A FAILING TEST FIRST
 ```
 
----
+Write code before the test? Delete it. Start over.
 
-## 2. The Three Laws of TDD
+**No exceptions:**
+- Don't keep it as "reference"
+- Don't "adapt" it while writing tests
+- Don't look at it
+- Delete means delete
 
-1. Write production code only to make a failing test pass
-2. Write only enough test to demonstrate failure
-3. Write only enough code to make the test pass
+Implement fresh from tests. Period.
 
----
+## When to Use
 
-## 3. RED Phase Principles
+**Always:**
+- New features
+- Bug fixes
+- Refactoring
+- Behavior changes
 
-### What to Write
+**Exceptions (ask your user):**
+- Throwaway prototypes
+- Generated code
+- Configuration files
 
-| Focus | Example |
-|-------|---------|
-| Behavior | "should add two numbers" |
-| Edge cases | "should handle empty input" |
-| Error states | "should throw for invalid data" |
+Thinking "skip TDD just this once"? Stop. That's rationalization.
 
-### RED Phase Rules
+## Red-Green-Refactor
 
-- Test must fail first
-- Test name describes expected behavior
-- One assertion per test (ideally)
+```
+🔴 RED    → Write one failing test
+     ↓ Verify it fails correctly
+🟢 GREEN  → Write minimal code to pass
+     ↓ Verify all tests pass
+🔵 REFACTOR → Clean up (keep tests green)
+     ↓
+   Repeat
+```
 
----
+### RED — Write Failing Test
 
-## 4. GREEN Phase Principles
+Write one minimal test showing what should happen.
 
-### Minimum Code
+<Good>
+```typescript
+test('retries failed operations 3 times', async () => {
+  let attempts = 0;
+  const operation = () => {
+    attempts++;
+    if (attempts < 3) throw new Error('fail');
+    return 'success';
+  };
 
-| Principle | Meaning |
-|-----------|---------|
-| **YAGNI** | You Aren't Gonna Need It |
-| **Simplest thing** | Write the minimum to pass |
-| **No optimization** | Just make it work |
+  const result = await retryOperation(operation);
 
-### GREEN Phase Rules
+  expect(result).toBe('success');
+  expect(attempts).toBe(3);
+});
+```
+Clear name, tests real behavior, one thing
+</Good>
 
-- Don't write unneeded code
-- Don't optimize yet
-- Pass the test, nothing more
+<Bad>
+```typescript
+test('retry works', async () => {
+  const mock = jest.fn()
+    .mockRejectedValueOnce(new Error())
+    .mockResolvedValueOnce('success');
+  await retryOperation(mock);
+  expect(mock).toHaveBeenCalledTimes(2);
+});
+```
+Vague name, tests mock not code
+</Bad>
 
----
+**Requirements:**
+- One behavior per test
+- Clear name describing behavior
+- Real code (no mocks unless unavoidable)
 
-## 5. REFACTOR Phase Principles
+### Verify RED — Watch It Fail
 
-### What to Improve
+**MANDATORY. Never skip.**
 
-| Area | Action |
-|------|--------|
-| Duplication | Extract common code |
-| Naming | Make intent clear |
-| Structure | Improve organization |
-| Complexity | Simplify logic |
+Confirm:
+- Test fails (not errors)
+- Failure message is expected
+- Fails because feature missing (not typos)
 
-### REFACTOR Rules
+**Test passes?** You're testing existing behavior. Fix test.
+**Test errors?** Fix error, re-run until it fails correctly.
 
-- All tests must stay green
-- Small incremental changes
-- Commit after each refactor
+### GREEN — Minimal Code
 
----
+Write simplest code to pass the test. Nothing more.
 
-## 6. AAA Pattern
+Don't add features, refactor other code, or "improve" beyond the test.
 
-Every test follows:
+### Verify GREEN — Watch It Pass
 
-| Step | Purpose |
-|------|---------|
-| **Arrange** | Set up test data |
-| **Act** | Execute code under test |
-| **Assert** | Verify expected outcome |
+**MANDATORY.**
 
----
+Confirm:
+- Test passes
+- Other tests still pass
+- Output pristine (no errors, warnings)
 
-## 7. When to Use TDD
+**Test fails?** Fix code, not test.
+**Other tests fail?** Fix now.
 
-| Scenario | TDD Value |
-|----------|-----------|
-| New feature | High |
-| Bug fix | High (write test first) |
-| Complex logic | High |
-| Exploratory | Low (spike, then TDD) |
-| UI layout | Low |
+### REFACTOR — Clean Up
 
----
+After green only:
+- Remove duplication
+- Improve names
+- Extract helpers
 
-## 8. Test Prioritization
+Keep tests green. Don't add behavior.
 
-| Priority | Test Type |
-|----------|-----------|
-| 1 | Happy path |
-| 2 | Error cases |
-| 3 | Edge cases |
-| 4 | Performance |
+## Why Order Matters
 
----
+**"I'll write tests after to verify it works"**
 
-## 9. Anti-Patterns
+Tests written after code pass immediately. Passing immediately proves nothing:
+- Might test wrong thing
+- Might test implementation, not behavior
+- You never saw it catch the bug
 
-| ❌ Don't | ✅ Do |
-|----------|-------|
-| Skip the RED phase | Watch test fail first |
-| Write tests after | Write tests before |
-| Over-engineer initial | Keep it simple |
-| Multiple asserts | One behavior per test |
-| Test implementation | Test behavior |
+**"Deleting X hours of work is wasteful"**
 
----
+Sunk cost fallacy. The time is already gone. Your choice now:
+- Delete and rewrite with TDD (X more hours, high confidence)
+- Keep it and add tests after (30 min, low confidence, likely bugs)
 
-## 10. AI-Augmented TDD
+## Common Rationalizations
 
-### Multi-Agent Pattern
+| Excuse | Reality |
+|--------|---------|
+| "Too simple to test" | Simple code breaks. Test takes 30 seconds. |
+| "I'll test after" | Tests passing immediately prove nothing. |
+| "Tests after achieve same goals" | Tests-after = "what does this do?" Tests-first = "what should this do?" |
+| "Already manually tested" | Ad-hoc ≠ systematic. No record, can't re-run. |
+| "Deleting X hours is wasteful" | Sunk cost fallacy. Keeping unverified code is technical debt. |
+| "Keep as reference, write tests first" | You'll adapt it. That's testing after. Delete means delete. |
+| "Need to explore first" | Fine. Throw away exploration, start with TDD. |
+| "Test hard = design unclear" | Listen to test. Hard to test = hard to use. |
+| "TDD will slow me down" | TDD faster than debugging. |
+| "Existing code has no tests" | You're improving it. Add tests for existing code. |
 
-| Agent | Role |
-|-------|------|
-| Agent A | Write failing tests (RED) |
-| Agent B | Implement to pass (GREEN) |
-| Agent C | Optimize (REFACTOR) |
+## Red Flags — STOP and Start Over
 
----
+- Code before test
+- Test after implementation
+- Test passes immediately
+- Can't explain why test failed
+- Tests added "later"
+- Rationalizing "just this once"
+- "I already manually tested it"
+- "Tests after achieve the same purpose"
+- "It's about spirit not ritual"
+- "Keep as reference" or "adapt existing code"
+- "Already spent X hours, deleting is wasteful"
+- "This is different because..."
 
-> **Remember:** The test is the specification. If you can't write a test, you don't understand the requirement.
+**All of these mean: Delete code. Start over with TDD.**
+
+## Verification Checklist
+
+Before marking work complete:
+
+- [ ] Every new function/method has a test
+- [ ] Watched each test fail before implementing
+- [ ] Each test failed for expected reason (feature missing, not typo)
+- [ ] Wrote minimal code to pass each test
+- [ ] All tests pass
+- [ ] Output pristine (no errors, warnings)
+- [ ] Tests use real code (mocks only if unavoidable)
+- [ ] Edge cases and errors covered
+
+Can't check all boxes? You skipped TDD. Start over.
+
+## When Stuck
+
+| Problem | Solution |
+|---------|----------|
+| Don't know how to test | Write wished-for API. Write assertion first. Ask user. |
+| Test too complicated | Design too complicated. Simplify interface. |
+| Must mock everything | Code too coupled. Use dependency injection. |
+| Test setup huge | Extract helpers. Still complex? Simplify design. |
+
+## Debugging Integration
+
+Bug found? Write failing test reproducing it. Follow TDD cycle. Test proves fix and prevents regression.
+
+Never fix bugs without a test.
+
+## Final Rule
+
+```
+Production code → test exists and failed first
+Otherwise → not TDD
+```
+
+No exceptions without your user's permission.

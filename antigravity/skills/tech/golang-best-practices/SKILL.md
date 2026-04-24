@@ -1,6 +1,6 @@
 ---
 name: golang-best-practices
-description: Expert Go (Golang) patterns, concurrency models, error handling, and project layout standards. Triggers on "go", "golang", "goroutine", "channel", "struct".
+description: "Use when writing or refactoring Go (Golang) code, implementing goroutines/channels, or structuring Go projects."
 ---
 # Golang Pro Max - Advanced Engineering
 

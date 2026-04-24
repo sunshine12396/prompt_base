@@ -1,6 +1,6 @@
 ---
 name: mcp-builder
-description: MCP (Model Context Protocol) server building principles. Tool design, resource patterns, best practices.
+description: "Use when building Model Context Protocol (MCP) servers, designing tool schemas, or implementing resource patterns."
 allowed-tools: Read, Write, Edit, Glob, Grep
 ---
 

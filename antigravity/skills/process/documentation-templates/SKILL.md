@@ -1,6 +1,6 @@
 ---
 name: documentation-templates
-description: Documentation templates and structure guidelines. README, API docs, code comments, and AI-friendly documentation.
+description: "Use when generating READMEs, API documentation, code comments, or architectural documentation."
 allowed-tools: Read, Glob, Grep
 ---
 

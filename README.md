@@ -149,3 +149,9 @@ A high-level design intelligence library for building premium interfaces:
 - [Component Guide](docs/components.md) - Understanding Rules, Workflows, and the Skill loading protocol.
 - [Governance (GEMINI.md)](GEMINI.md) - Operational rules and request classification logic.
 - [Skills Guide](docs/skills-guide.md) - Detailed guide on building and customizing your own skills.
+
+---
+
+## 🙏 Acknowledgments
+
+This framework's rigorous process execution, strict behavioral gates, and core workflow skills (including TDD, systematic debugging, planning, and multi-agent coordination) are heavily inspired by and adapted from the [obra/superpowers](https://github.com/obra/superpowers) methodology.

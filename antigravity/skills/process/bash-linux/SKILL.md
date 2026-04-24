@@ -1,6 +1,6 @@
 ---
 name: bash-linux
-description: Bash/Linux terminal patterns. Critical commands, piping, error handling, scripting. Use when working on macOS or Linux systems.
+description: "Use when working on macOS or Linux terminals, piping commands, writing shell scripts, or handling bash errors."
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 

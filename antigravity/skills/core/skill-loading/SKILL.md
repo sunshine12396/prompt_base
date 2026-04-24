@@ -1,6 +1,6 @@
 ---
 name: skill-loading
-description: Logic for dynamic skill activation and discovery (JIT Knowledge).
+description: "Use when activating or discovering JIT Knowledge skills dynamically during a task."
 ---
 
 # Skill Loading Protocol (JIT Knowledge)

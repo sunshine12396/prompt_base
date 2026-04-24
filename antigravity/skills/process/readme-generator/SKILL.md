@@ -1,5 +1,5 @@
 ---
-description: Analyzes repository configurations and structure to generate a complete and professional README.md.
+description: "Use when automatically generating a complete and professional README.md by analyzing repository configurations."
 ---
 
 # README Generator Skill

@@ -1,93 +1,109 @@
 ---
 name: parallel-agents
-description: Multi-agent orchestration patterns. Use when multiple independent tasks can run with different domain expertise or when comprehensive analysis requires multiple perspectives.
+description: "Use when facing 2+ independent tasks that can be worked on concurrently without shared state or sequential dependencies."
 allowed-tools: Read, Glob, Grep
 ---
 
-# Native Parallel Agents
-
-> Orchestration through Claude Code's built-in Agent Tool
+# Dispatching Parallel Agents
 
 ## Overview
 
-This skill enables coordinating multiple specialized agents through Claude Code's native agent system. Unlike external scripts, this approach keeps all orchestration within Claude's control.
+You delegate tasks to specialized agents with isolated context. By precisely crafting their instructions and context, you ensure they stay focused and succeed at their task. They should never inherit your session's context or history — you construct exactly what they need. This also preserves your own context for coordination work.
 
-## When to Use Orchestration
+When you have multiple unrelated failures (different test files, different subsystems, different bugs), investigating them sequentially wastes time. Each investigation is independent and can happen in parallel.
 
-✅ **Good for:**
-- Complex tasks requiring multiple expertise domains
-- Code analysis from security, performance, and quality perspectives
-- Comprehensive reviews (architecture + security + testing)
-- Feature implementation needing backend + frontend + database work
+**Core principle:** Dispatch one agent per independent problem domain. Let them work concurrently.
 
-❌ **Not for:**
-- Simple, single-domain tasks
-- Quick fixes or small changes
-- Tasks where one agent suffices
+## When to Use
 
----
+**Use when:**
+- 3+ test files failing with different root causes
+- Multiple subsystems broken independently
+- Each problem can be understood without context from others
+- No shared state between investigations
 
-## Native Agent Invocation
+**Don't use when:**
+- Failures are related (fix one might fix others)
+- Need to understand full system state
+- Agents would interfere with each other (editing same files)
 
-### Single Agent
-```
-Use the security-auditor agent to review authentication
-```
+## The Pattern
 
-### Sequential Chain
-```
-First, use the explorer-agent to discover project structure.
-Then, use the backend-specialist to review API endpoints.
-Finally, use the test-engineer to identify test gaps.
-```
+### 1. Identify Independent Domains
 
-### With Context Passing
-```
-Use the frontend-specialist to analyze React components.
-Based on those findings, have the test-engineer generate component tests.
-```
+Group failures by what's broken:
+- Domain A: Tool approval flow
+- Domain B: Batch completion behavior
+- Domain C: Abort functionality
 
-### Resume Previous Work
-```
-Resume agent [agentId] and continue with additional requirements.
-```
+Each domain is independent - fixing one doesn't affect the others.
 
----
+### 2. Create Focused Agent Tasks
 
-## Orchestration Patterns
+Each agent gets:
+- **Specific scope:** One test file or subsystem
+- **Clear goal:** Make these tests pass / Fix this bug
+- **Constraints:** Don't change other code
+- **Expected output:** Summary of what you found and fixed
 
-### Pattern 1: Comprehensive Analysis
-```
-Agents: explorer-agent → [domain-agents] → synthesis
+### 3. Dispatch in Parallel
 
-1. explorer-agent: Map codebase structure
-2. security-auditor: Security posture
-3. backend-specialist: API quality
-4. frontend-specialist: UI/UX patterns
-5. test-engineer: Test coverage
-6. Synthesize all findings
+```typescript
+// Invoke the tools simultaneously or in rapid succession
+Task("Fix Domain A")
+Task("Fix Domain B")
+Task("Fix Domain C")
+// All run concurrently
 ```
 
-### Pattern 2: Feature Review
-```
-Agents: affected-domain-agents → test-engineer
+### 4. Review and Integrate
 
-1. Identify affected domains (backend? frontend? both?)
-2. Invoke relevant domain agents
-3. test-engineer verifies changes
-4. Synthesize recommendations
+When agents return:
+- Read each summary
+- Verify fixes don't conflict
+- Run full test suite
+- Integrate all changes
+
+## Agent Prompt Structure
+
+Good agent prompts are:
+1. **Focused** - One clear problem domain
+2. **Self-contained** - All context needed to understand the problem
+3. **Specific about output** - What should the agent return?
+
+```markdown
+Fix the 3 failing tests in src/agents/agent-tool-abort.test.ts:
+
+1. "should abort tool" - expects 'interrupted' in message
+2. "should properly track count" - expects 3 results but gets 0
+
+These are timing/race condition issues. Your task:
+
+1. Read the test file and understand what each test verifies
+2. Identify root cause
+3. Fix by:
+   - Adjusting test expectations if testing changed behavior
+   - Fixing bugs in implementation if found
+
+Do NOT just increase timeouts - find the real issue.
+Do NOT change production code outside this module.
+
+Return: Summary of what you found and what you fixed.
 ```
 
-### Pattern 3: Security Audit
-```
-Agents: security-auditor → penetration-tester → synthesis
+## Common Mistakes
 
-1. security-auditor: Configuration and code review
-2. penetration-tester: Active vulnerability testing
-3. Synthesize with prioritized remediation
-```
+**❌ Too broad:** "Fix all the tests" - agent gets lost
+**✅ Specific:** "Fix agent-tool-abort.test.ts" - focused scope
 
----
+**❌ No context:** "Fix the race condition" - agent doesn't know where
+**✅ Context:** Paste the error messages and test names
+
+**❌ No constraints:** Agent might refactor everything
+**✅ Constraints:** "Do NOT change production code" or "Fix tests only"
+
+**❌ Vague output:** "Fix it" - you don't know what changed
+**✅ Specific:** "Return summary of root cause and changes"
 
 ## Available Agents
 
@@ -95,37 +111,18 @@ Agents: security-auditor → penetration-tester → synthesis
 |-------|-----------|-----------------|
 | `orchestrator` | Coordination | "comprehensive", "multi-perspective" |
 | `security-auditor` | Security | "security", "auth", "vulnerabilities" |
-| `penetration-tester` | Security Testing | "pentest", "red team", "exploit" |
 | `backend-specialist` | Backend | "API", "server", "Node.js", "Express" |
 | `frontend-specialist` | Frontend | "React", "UI", "components", "Next.js" |
 | `test-engineer` | Testing | "tests", "coverage", "TDD" |
 | `devops-engineer` | DevOps | "deploy", "CI/CD", "infrastructure" |
 | `database-architect` | Database | "schema", "Prisma", "migrations" |
 | `mobile-developer` | Mobile | "React Native", "Flutter", "mobile" |
-| `api-designer` | API Design | "REST", "GraphQL", "OpenAPI" |
 | `debugger` | Debugging | "bug", "error", "not working" |
 | `explorer-agent` | Discovery | "explore", "map", "structure" |
-| `documentation-writer` | Documentation | "write docs", "create README", "generate API docs" |
+| `documentation-writer` | Documentation | "write docs", "create README" |
 | `performance-optimizer` | Performance | "slow", "optimize", "profiling" |
 | `project-planner` | Planning | "plan", "roadmap", "milestones" |
 | `seo-specialist` | SEO | "SEO", "meta tags", "search ranking" |
-| `game-developer` | Game Development | "game", "Unity", "Godot", "Phaser" |
-
----
-
-## Claude Code Built-in Agents
-
-These work alongside custom agents:
-
-| Agent | Model | Purpose |
-|-------|-------|---------|
-| **Explore** | Haiku | Fast read-only codebase search |
-| **Plan** | Sonnet | Research during plan mode |
-| **General-purpose** | Sonnet | Complex multi-step modifications |
-
-Use **Explore** for quick searches, **custom agents** for domain expertise.
-
----
 
 ## Synthesis Protocol
 
@@ -140,36 +137,11 @@ After all agents complete, synthesize:
 ### Agent Contributions
 | Agent | Finding |
 |-------|---------|
-| security-auditor | Found X |
-| backend-specialist | Identified Y |
-
-### Consolidated Recommendations
-1. **Critical**: [Issue from Agent A]
-2. **Important**: [Issue from Agent B]
-3. **Nice-to-have**: [Enhancement from Agent C]
+| [Agent 1] | Found X |
+| [Agent 2] | Identified Y |
 
 ### Action Items
 - [ ] Fix critical security issue
 - [ ] Refactor API endpoint
 - [ ] Add missing tests
 ```
-
----
-
-## Best Practices
-
-1. **Available agents** - 17 specialized agents can be orchestrated
-2. **Logical order** - Discovery → Analysis → Implementation → Testing
-3. **Share context** - Pass relevant findings to subsequent agents
-4. **Single synthesis** - One unified report, not separate outputs
-5. **Verify changes** - Always include test-engineer for code modifications
-
----
-
-## Key Benefits
-
-- ✅ **Single session** - All agents share context
-- ✅ **AI-controlled** - Claude orchestrates autonomously
-- ✅ **Native integration** - Works with built-in Explore, Plan agents
-- ✅ **Resume support** - Can continue previous agent work
-- ✅ **Context passing** - Findings flow between agents
