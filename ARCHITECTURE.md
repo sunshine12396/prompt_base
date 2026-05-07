@@ -124,14 +124,14 @@ Prompt Base uses **Progressive Disclosure** to manage complexity. Skills remain 
 | `behavioral-modes`   | Operational personas      |
 | `parallel-agents`    | Multi-perspective analysis|
 
-### Technology (16)
+### Technology (17)
 
 | Category    | Skills                                                                              |
 | ----------- | ----------------------------------------------------------------------------------- |
 | **Web**     | `react-patterns`, `nextjs-best-practices`, `tailwind-patterns`, `typescript-expert` |
 | **Backend** | `nodejs-best-practices`, `python-patterns`, `prisma-expert`, `nestjs-expert`, `golang-best-practices`, `api-patterns` |
 | **Mobile**  | `mobile-design`                                                                     |
-| **Other**   | `database-design`, `docker-expert`, `game-development`, `ux-ui-pro-max`, `mcp-builder` |
+| **Other**   | `database-design`, `docker-expert`, `game-development`, `ux-ui-pro-max`, `mcp-builder`, `jupyter-notebooks` |
 
 ### Process (16+)
 
@@ -171,7 +171,7 @@ Prompt Base uses **Progressive Disclosure** to manage complexity. Skills remain 
 | Metric              | Value |
 | ------------------- | ----- |
 | **Total Agents**    | 14    |
-| **Total Skills**    | 40+   |
+| **Total Skills**    | 41+   |
 | **Total Workflows** | 14    |
 
 ---
